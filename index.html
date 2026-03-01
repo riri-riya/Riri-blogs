@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Riri Blogs — Riya S Vinod | Writing that Connects</title>
+  <meta name="description"
+    content="Portfolio and blog hub by Riya S Vinod — professional insights, persuasive reflections, creative storytelling, and series reviews." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #fdfdff;
+      --bg2: #f5f3fa;
+      --bg3: #edeaf5;
+      --text: #1e1535;
+      --text2: #4d4565;
+      --text3: #8a839a;
+      --accent: linear-gradient(135deg, #7c3aed, #c026d3, #e11d48);
+      --accent2: linear-gradient(135deg, #7c3aed, #a855f7, #c026d3, #e11d48);
+      --accent-solid: #7c3aed;
+      --pink: #c026d3;
+      --red: #e11d48;
+      --glass: rgba(255, 255, 255, .55);
+      --glass-border: rgba(255, 255, 255, .6);
+      --card: #ffffff;
+      --card-border: rgba(124, 58, 237, .1);
+      --shadow: 0 4px 30px rgba(44, 38, 64, .07);
+      --shadow-hover: 0 12px 48px rgba(124, 58, 237, .18);
+      --radius: 20px;
+      --nav-h: 72px;
+      --transition: all .4s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0a0614;
+      --bg2: #110d20;
+      --bg3: #1a1330;
+      --text: #f0ecfa;
+      --text2: #b5adc8;
+      --text3: #6e6688;
+      --glass: rgba(20, 14, 40, .6);
+      --glass-border: rgba(124, 58, 237, .2);
+      --card: #13102a;
+      --card-border: rgba(124, 58, 237, .15);
+      --shadow: 0 4px 30px rgba(0, 0, 0, .25);
+      --shadow-hover: 0 12px 48px rgba(124, 58, 237, .25);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      transition: background .5s, color .5s
+    }
+
+    /* ═══ PROGRESS BAR ═══ */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 9999;
+      width: 0;
+      border-radius: 0 2px 2px 0
+    }
+
+    /* ═══ CURSOR GLOW (desktop) ═══ */
+    .cursor-glow {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(124, 58, 237, .08) 0%, transparent 70%);
+      z-index: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity .3s;
+      opacity: 0
+    }
+
+    body:hover .cursor-glow {
+      opacity: 1
+    }
+
+    @media(max-width:768px) {
+      .cursor-glow {
+        display: none
+      }
+    }
+
+    /* ═══ NAVBAR ═══ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(1.6);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid var(--glass-border);
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1rem, 5vw, 4rem);
+      transition: var(--transition)
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text2);
+      font-weight: 500;
+      font-size: .9rem;
+      position: relative;
+      transition: var(--transition)
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-solid)
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: all .3s;
+      transform: translateX(-50%)
+    }
+
+    .nav-links a:hover::after {
+      width: 100%
+    }
+
+    .nav-sub {
+      padding: .55rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: 0 2px 15px rgba(124, 58, 237, .25)
+    }
+
+    .nav-sub:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 25px rgba(124, 58, 237, .4)
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: .7rem
+    }
+
+    .theme-toggle {
+      background: var(--glass);
+      border: 1.5px solid var(--card-border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      transition: var(--transition);
+      color: var(--text);
+      backdrop-filter: blur(10px)
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent-solid);
+      transform: rotate(20deg) scale(1.1)
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px
+    }
+
+    .hamburger span {
+      width: 22px;
+      height: 2.5px;
+      background: var(--text);
+      border-radius: 4px;
+      transition: var(--transition)
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px)
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px)
+    }
+
+    @media(max-width:900px) {
+      .nav-links {
+        position: fixed;
+        top: var(--nav-h);
+        right: -100%;
+        width: 300px;
+        height: calc(100vh - var(--nav-h));
+        background: var(--glass);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        flex-direction: column;
+        padding: 2.5rem;
+        gap: 1.8rem;
+        box-shadow: -8px 0 40px rgba(0, 0, 0, .1);
+        transition: right .4s cubic-bezier(.22, 1, .36, 1)
+      }
+
+      .nav-links.open {
+        right: 0
+      }
+
+      .hamburger {
+        display: flex
+      }
+    }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: center;
+      padding: 4rem clamp(1.2rem, 5vw, 4rem);
+      gap: 3rem;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(124, 58, 237, .06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 0
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 620px;
+      z-index: 2
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      line-height: 1.12;
+      margin-bottom: 1.3rem;
+      letter-spacing: -.02em
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text2);
+      margin-bottom: 2.2rem;
+      max-width: 500px;
+      line-height: 1.8
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .btn-primary {
+      padding: .85rem 2.2rem;
+      border-radius: 50px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: .92rem;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 4px 20px rgba(124, 58, 237, .25)
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, .35)
+    }
+
+    .btn-outline {
+      padding: .85rem 2.2rem;
+      border-radius: 50px;
+      background: transparent;
+      color: var(--accent-solid);
+      font-weight: 600;
+      border: 2px solid rgba(124, 58, 237, .3);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: .92rem;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      backdrop-filter: blur(4px)
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-solid);
+      color: #fff;
+      border-color: var(--accent-solid);
+      transform: translateY(-3px)
+    }
+
+    .hero-art {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 420px
+    }
+
+    .gradient-blob {
+      width: 400px;
+      height: 400px;
+      border-radius: 50% 40% 60% 50%/50% 60% 40% 50%;
+      background: conic-gradient(from 180deg, #7c3aed, #a855f7, #c026d3, #e11d48, #fb923c, #e11d48, #c026d3, #7c3aed);
+      animation: morphBlob 10s ease-in-out infinite, spinBlob 20s linear infinite;
+      filter: blur(2px);
+      opacity: .8
+    }
+
+    @keyframes morphBlob {
+
+      0%,
+      100% {
+        border-radius: 50% 40% 60% 50%/50% 60% 40% 50%;
+        transform: scale(1)
+      }
+
+      25% {
+        border-radius: 40% 60% 50% 50%/60% 40% 50% 50%
+      }
+
+      50% {
+        border-radius: 60% 50% 40% 50%/40% 50% 60% 50%;
+        transform: scale(1.04)
+      }
+
+      75% {
+        border-radius: 45% 55% 55% 45%/55% 45% 45% 55%
+      }
+    }
+
+    @keyframes spinBlob {
+      from {
+        rotate: 0deg
+      }
+
+      to {
+        rotate: 360deg
+      }
+    }
+
+    .blob-ring {
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(124, 58, 237, .15);
+      animation: spinBlob 30s linear infinite reverse
+    }
+
+    .floating-icon {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: .65;
+      z-index: 3;
+      animation-duration: 5s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite
+    }
+
+    .floating-icon:nth-child(2) {
+      top: 8%;
+      left: 12%;
+      animation-name: float1
+    }
+
+    .floating-icon:nth-child(3) {
+      top: 18%;
+      right: 8%;
+      animation-name: float2;
+      animation-delay: .8s
+    }
+
+    .floating-icon:nth-child(4) {
+      bottom: 22%;
+      left: 8%;
+      animation-name: float3;
+      animation-delay: 1.6s
+    }
+
+    .floating-icon:nth-child(5) {
+      bottom: 12%;
+      right: 18%;
+      animation-name: float1;
+      animation-delay: 2.4s
+    }
+
+    .floating-icon:nth-child(6) {
+      top: 48%;
+      left: 3%;
+      animation-name: float2;
+      animation-delay: 1.2s
+    }
+
+    .floating-icon:nth-child(7) {
+      top: 3%;
+      right: 28%;
+      animation-name: float3;
+      animation-delay: 2s
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg)
+      }
+
+      50% {
+        transform: translate(8px, -16px) rotate(10deg)
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg)
+      }
+
+      50% {
+        transform: translate(-10px, -12px) rotate(-8deg)
+      }
+    }
+
+    @keyframes float3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg)
+      }
+
+      50% {
+        transform: translate(6px, -20px) rotate(12deg)
+      }
+    }
+
+    @media(max-width:768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 2rem
+      }
+
+      .hero p {
+        margin-left: auto;
+        margin-right: auto
+      }
+
+      .hero-btns {
+        justify-content: center
+      }
+
+      .hero-art {
+        min-height: 300px
+      }
+
+      .gradient-blob {
+        width: 260px;
+        height: 260px
+      }
+
+      .blob-ring {
+        width: 310px;
+        height: 310px
+      }
+    }
+
+    /* ═══ SECTIONS COMMON ═══ */
+    .section {
+      padding: 6rem clamp(1.2rem, 5vw, 4rem);
+      position: relative
+    }
+
+    .section-alt {
+      background: var(--bg2)
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      text-align: center;
+      margin-bottom: .6rem;
+      letter-spacing: -.01em
+    }
+
+    .section-title .gradient-text {
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--text2);
+      max-width: 520px;
+      margin: 0 auto 3.5rem;
+      font-size: 1rem
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .reveal-delay-1 {
+      transition-delay: .1s
+    }
+
+    .reveal-delay-2 {
+      transition-delay: .2s
+    }
+
+    .reveal-delay-3 {
+      transition-delay: .3s
+    }
+
+    .reveal-delay-4 {
+      transition-delay: .4s
+    }
+
+    .reveal-delay-5 {
+      transition-delay: .5s
+    }
+
+    /* ═══ ABOUT ═══ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center
+    }
+
+    .about-text h3 {
+      font-size: 1.15rem;
+      margin-bottom: .6rem;
+      color: var(--accent-solid);
+      font-weight: 700
+    }
+
+    .about-text p {
+      color: var(--text2);
+      margin-bottom: 1.3rem;
+      font-size: .95rem
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: 1.2rem
+    }
+
+    .skill-tag {
+      padding: .4rem 1rem;
+      border-radius: 50px;
+      background: var(--glass);
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--accent-solid);
+      border: 1.5px solid var(--card-border);
+      transition: var(--transition);
+      cursor: default;
+      backdrop-filter: blur(6px)
+    }
+
+    .skill-tag:hover {
+      background: var(--accent-solid);
+      color: #fff;
+      border-color: var(--accent-solid);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .25)
+    }
+
+    .about-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .about-shape {
+      width: 300px;
+      height: 300px;
+      border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+      background: linear-gradient(135deg, rgba(124, 58, 237, .12), rgba(192, 38, 211, .12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      animation: morphBlob 12s ease-in-out infinite;
+      position: relative;
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(124, 58, 237, .12)
+    }
+
+    .about-shape::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: inherit;
+      border: 1.5px dashed rgba(124, 58, 237, .12);
+      animation: spinBlob 25s linear infinite
+    }
+
+    @media(max-width:768px) {
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+
+      .about-visual {
+        order: -1
+      }
+
+      .about-shape {
+        width: 220px;
+        height: 220px;
+        font-size: 3.5rem
+      }
+    }
+
+    /* ═══ GLASS CARD MIXIN ═══ */
+    .glass-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition)
+    }
+
+    .glass-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-6px)
+    }
+
+    /* ═══ BLOGS ═══ */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: .6rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap
+    }
+
+    .filter-btn {
+      padding: .5rem 1.4rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--card-border);
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      color: var(--text2);
+      font-weight: 500;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent-solid);
+      color: #fff;
+      border-color: var(--accent-solid);
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .25)
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 2rem
+    }
+
+    .blog-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .blog-card:hover::before {
+      transform: scaleX(1)
+    }
+
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover)
+    }
+
+    .blog-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(124, 58, 237, .04) 0%, transparent 60%);
+      pointer-events: none;
+      transition: var(--transition)
+    }
+
+    .blog-card:hover::after {
+      top: -30%;
+      right: -30%
+    }
+
+    .blog-tag {
+      display: inline-block;
+      padding: .25rem .8rem;
+      border-radius: 50px;
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: .8rem;
+      width: fit-content
+    }
+
+    .tag-professional {
+      background: rgba(124, 58, 237, .1);
+      color: #7c3aed
+    }
+
+    .tag-personal {
+      background: rgba(192, 38, 211, .1);
+      color: #c026d3
+    }
+
+    .tag-review {
+      background: rgba(225, 29, 72, .1);
+      color: #e11d48
+    }
+
+    .blog-card h3 {
+      font-size: 1.12rem;
+      margin-bottom: .6rem;
+      line-height: 1.4;
+      font-weight: 700
+    }
+
+    .blog-card .excerpt {
+      color: var(--text2);
+      font-size: .9rem;
+      margin-bottom: 1.2rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1
+    }
+
+    .blog-card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .blog-card .date {
+      color: var(--text3);
+      font-size: .8rem
+    }
+
+    .read-more {
+      background: none;
+      border: none;
+      color: var(--accent-solid);
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem
+    }
+
+    .read-more:hover {
+      gap: .6rem;
+      color: var(--pink)
+    }
+
+    .read-more::after {
+      content: '→';
+      transition: var(--transition)
+    }
+
+    /* ═══ MODAL ═══ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 6, 20, .65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem
+    }
+
+    .modal-overlay.active {
+      display: flex
+    }
+
+    .modal {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2.5rem;
+      position: relative;
+      animation: modalIn .45s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(.96)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--text3);
+      transition: var(--transition)
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: var(--accent-solid);
+      border-color: var(--accent-solid);
+      transform: rotate(90deg)
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: .5rem
+    }
+
+    .modal .blog-tag {
+      margin-bottom: 1rem
+    }
+
+    .modal .date {
+      color: var(--text3);
+      font-size: .85rem;
+      display: block;
+      margin-bottom: 1.5rem
+    }
+
+    .modal .body {
+      color: var(--text2);
+      line-height: 1.9;
+      font-size: .95rem
+    }
+
+    /* ═══ PORTFOLIO ═══ */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.5rem
+    }
+
+    .portfolio-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      transition: var(--transition);
+      overflow: hidden
+    }
+
+    .portfolio-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent)
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover)
+    }
+
+    .portfolio-card h4 {
+      font-size: 1.02rem;
+      margin-bottom: .4rem;
+      font-weight: 700
+    }
+
+    .portfolio-card .impact {
+      color: var(--text2);
+      font-size: .86rem;
+      margin-bottom: .7rem;
+      font-style: italic;
+      line-height: 1.6
+    }
+
+    .portfolio-card .cat-label {
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--accent-solid);
+      letter-spacing: .6px;
+      margin-bottom: .8rem;
+      display: block
+    }
+
+    .btn-sm {
+      padding: .45rem 1.2rem;
+      border-radius: 50px;
+      background: transparent;
+      border: 1.5px solid rgba(124, 58, 237, .3);
+      color: var(--accent-solid);
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem
+    }
+
+    .btn-sm:hover {
+      background: var(--accent-solid);
+      color: #fff;
+      border-color: var(--accent-solid);
+      transform: translateY(-2px)
+    }
+
+    /* ═══ REVIEWS ═══ */
+    .reviews-section {
+      background: var(--bg3)
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 2rem
+    }
+
+    .review-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      padding: 2rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden
+    }
+
+    .review-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      transition: height .5s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .review-card:hover::before {
+      height: 100%
+    }
+
+    .review-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover)
+    }
+
+    .review-card h3 {
+      font-size: 1.12rem;
+      margin-bottom: .3rem;
+      font-weight: 700
+    }
+
+    .review-card .genre {
+      color: var(--text3);
+      font-size: .82rem;
+      margin-bottom: .6rem;
+      font-weight: 500
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 1rem;
+      margin-bottom: .8rem;
+      letter-spacing: 3px
+    }
+
+    .review-card .snippet {
+      color: var(--text2);
+      font-size: .9rem;
+      font-style: italic;
+      margin-bottom: 1.3rem;
+      line-height: 1.7
+    }
+
+    /* ═══ CONTACT ═══ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: .9rem 1.2rem;
+      border-radius: 14px;
+      border: 1.5px solid var(--card-border);
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      color: var(--text);
+      font-family: inherit;
+      font-size: .93rem;
+      transition: var(--transition);
+      outline: none
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent-solid);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, .08)
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 130px
+    }
+
+    .contact-info h3 {
+      font-size: 1.15rem;
+      margin-bottom: .8rem;
+      font-weight: 700
+    }
+
+    .contact-info p {
+      color: var(--text2);
+      margin-bottom: 1rem;
+      font-size: .93rem;
+      line-height: 1.7
+    }
+
+    .email-link {
+      color: var(--accent-solid);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition)
+    }
+
+    .email-link:hover {
+      color: var(--pink)
+    }
+
+    .social-icons {
+      display: flex;
+      gap: .8rem;
+      margin-top: 1.2rem
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1.5px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text2);
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--glass);
+      backdrop-filter: blur(6px)
+    }
+
+    .social-icon:hover {
+      background: var(--accent-solid);
+      color: #fff;
+      border-color: var(--accent-solid);
+      transform: translateY(-4px) rotate(-5deg);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, .3)
+    }
+
+    .social-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor
+    }
+
+    @media(max-width:768px) {
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ═══ FOOTER ═══ */
+    .footer {
+      background: var(--bg3);
+      padding: 3.5rem clamp(1.2rem, 5vw, 4rem) 1.5rem;
+      position: relative
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2rem
+    }
+
+    .footer h4 {
+      font-size: .95rem;
+      margin-bottom: 1rem;
+      font-weight: 700
+    }
+
+    .footer p,
+    .footer a {
+      color: var(--text2);
+      font-size: .86rem;
+      text-decoration: none;
+      transition: var(--transition)
+    }
+
+    .footer a:hover {
+      color: var(--accent-solid)
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem
+    }
+
+    .newsletter-input {
+      display: flex;
+      gap: .5rem;
+      margin-top: .6rem
+    }
+
+    .newsletter-input input {
+      flex: 1;
+      padding: .6rem 1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--card-border);
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+      color: var(--text);
+      font-size: .85rem;
+      outline: none;
+      transition: var(--transition)
+    }
+
+    .newsletter-input input:focus {
+      border-color: var(--accent-solid)
+    }
+
+    .newsletter-input button {
+      padding: .6rem 1.3rem;
+      border-radius: 50px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap
+    }
+
+    .newsletter-input button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .3)
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text3);
+      font-size: .8rem
+    }
+
+    @media(max-width:768px) {
+      .footer-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ═══ ANIMATED GRADIENT BORDER UTIL ═══ */
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false
+    }
+
+    .gradient-border {
+      position: relative
+    }
+
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--angle), #7c3aed, #c026d3, #e11d48, #fb923c, #e11d48, #c026d3, #7c3aed);
+      z-index: -1;
+      animation: rotateBorder 4s linear infinite
+    }
+
+    @keyframes rotateBorder {
+      to {
+        --angle: 360deg
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div id="progress"></div>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo">Riri Blogs</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-sub">Subscribe</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content reveal">
+      <h1>Writing is a <span class="gradient-text">conversation</span>, not just content.</h1>
+      <p>I write professional insights, persuasive reflections, and thoughtful reviews — blending creativity with
+        clarity.</p>
+      <div class="hero-btns">
+        <a href="#blogs" class="btn-primary">View Blogs ↓</a>
+        <a href="#portfolio" class="btn-outline">Explore Portfolio</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="gradient-blob"></div>
+      <div class="blob-ring"></div>
+      <span class="floating-icon">💬</span>
+      <span class="floating-icon">❤️</span>
+      <span class="floating-icon">💡</span>
+      <span class="floating-icon">✍️</span>
+      <span class="floating-icon">📖</span>
+      <span class="floating-icon">🌟</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ABOUT ═══════════════════ -->
+  <section class="section section-alt" id="about">
+    <h2 class="section-title reveal"><span class="gradient-text">About</span> Me</h2>
+    <p class="section-sub reveal">A content writer who believes every word should create impact.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <h3 class="reveal">Professional Summary</h3>
+        <p class="reveal">Hi, I'm <strong>Riya S Vinod</strong> — a content writer specializing in professional
+          insights, personal reflections, and creative storytelling. My work spans across industry blogs, persuasive
+          essays, and in-depth series reviews — always with the reader at the center.</p>
+        <h3 class="reveal">Writing Philosophy</h3>
+        <p class="reveal">I believe blogging is connection, not code. Every piece I write aims to start a conversation,
+          challenge a perspective, or tell a story that stays with you. Clarity meets creativity in every paragraph.</p>
+        <h3 class="reveal">Let's Collaborate</h3>
+        <p class="reveal">Whether you need a blog series, content strategy, or a fresh voice for your brand — I'm ready
+          to bring your words to life.</p>
+        <div class="skills reveal">
+          <span class="skill-tag">Blog Writing</span>
+          <span class="skill-tag">Content Strategy</span>
+          <span class="skill-tag">SEO Writing</span>
+          <span class="skill-tag">Copywriting</span>
+          <span class="skill-tag">Storytelling</span>
+          <span class="skill-tag">Series Reviews</span>
+          <span class="skill-tag">Persuasive Writing</span>
+          <span class="skill-tag">Brand Voice</span>
+        </div>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-shape">✨</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ BLOGS ═══════════════════ -->
+  <section class="section" id="blogs">
+    <h2 class="section-title reveal">Featured <span class="gradient-text">Blogs</span></h2>
+    <p class="section-sub reveal">Insights, reflections, and stories — explore by category.</p>
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="professional">Professional</button>
+      <button class="filter-btn" data-filter="personal">Personal</button>
+      <button class="filter-btn" data-filter="review">Reviews</button>
+    </div>
+    <div class="blog-grid">
+      <!-- ADD NEW BLOG CARDS BELOW THIS LINE -->
+      <div class="blog-card reveal" data-category="professional" data-title="The Art of Professional Blogging"
+        data-body="Professional blogging isn't about filling pages — it's about filling gaps. When done right, a blog becomes a bridge between expertise and curiosity, connecting brands with audiences who genuinely care.\n\nThe best professional blogs don't just inform; they invite. They turn complex ideas into accessible insights, making readers feel empowered rather than overwhelmed. This is where strategy meets storytelling.\n\nEvery blog post should answer one key question: Why should the reader care? If you can nail that, you've already won half the battle. The rest is craft — structure, tone, rhythm, and a conclusion that leaves them wanting more.">
+        <span class="blog-tag tag-professional">Professional</span>
+        <h3>The Art of Professional Blogging</h3>
+        <p class="excerpt">Professional blogging isn't about filling pages — it's about filling gaps. When done right, a
+          blog becomes a bridge between expertise and curiosity.</p>
+        <div class="meta"><span class="date">Feb 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+      <div class="blog-card reveal reveal-delay-1" data-category="personal"
+        data-title="Why I Write When No One's Reading"
+        data-body="There's a version of writing that exists only for the writer. It's messy, raw, and deeply personal. No SEO keywords, no target audience — just thoughts finding their shape on a blank page.\n\nI started writing long before anyone read a word I published. Those early pieces weren't polished. They were honest. And honestly, they taught me more about my voice than any writing course ever could.\n\nWriting when no one's reading is an act of faith. You're trusting that the words matter — not because of metrics, but because of meaning. That's where the magic begins.">
+        <span class="blog-tag tag-personal">Personal</span>
+        <h3>Why I Write When No One's Reading</h3>
+        <p class="excerpt">There's a version of writing that exists only for the writer. It's messy, raw, and deeply
+          personal. No SEO keywords, no target audience — just thoughts finding shape.</p>
+        <div class="meta"><span class="date">Feb 22, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+      <div class="blog-card reveal reveal-delay-2" data-category="review"
+        data-title="Severance — A Review of Identity Split"
+        data-body="Severance doesn't just tell a story — it asks a question that lingers long after the credits roll: What if you could split your work self from your personal self?\n\nThe show builds tension not through action, but through the unsettling quiet of corporate routine. Every hallway feels like a mystery. Every smile from a colleague feels rehearsed. It's dystopia dressed in office casual.\n\nWhat makes Severance brilliant is its restraint. It trusts the viewer to sit with discomfort, to piece together the puzzle without spoon-feeding answers. A masterclass in slow-burn storytelling.">
+        <span class="blog-tag tag-review">Review</span>
+        <h3>Severance — A Review of Identity Split</h3>
+        <p class="excerpt">Severance doesn't just tell a story — it asks a question that lingers long after the credits
+          roll. Dystopia dressed in office casual.</p>
+        <div class="meta"><span class="date">Feb 15, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+      <div class="blog-card reveal" data-category="professional" data-title="Content Strategy Isn't Optional Anymore"
+        data-body="In an era where content is currency, strategy is the vault. Without a clear plan, even the most brilliant writing gets lost in the noise.\n\nContent strategy starts with understanding your audience — not demographics, but desires. What keeps them scrolling? What makes them stop? Answer those questions, and you have the foundation for content that converts.\n\nA good strategy doesn't limit creativity; it channels it. Think of it as the riverbank that gives direction to flowing water. Without banks, you just have a flood.">
+        <span class="blog-tag tag-professional">Professional</span>
+        <h3>Content Strategy Isn't Optional Anymore</h3>
+        <p class="excerpt">In an era where content is currency, strategy is the vault. Without a clear plan, even the
+          most brilliant writing gets lost in the noise.</p>
+        <div class="meta"><span class="date">Feb 10, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+      <div class="blog-card reveal reveal-delay-1" data-category="personal"
+        data-title="The Courage to Be a Beginner Again"
+        data-body="We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting over in any craft — writing, painting, coding — is humbling in a way that growth demands.\n\nI've rewritten my voice multiple times. Each time felt like losing something familiar. But what I gained was always richer: a deeper understanding of why I write, who I write for, and what I want my words to do.\n\nBeing a beginner isn't a step backward. It's the bravest step forward you can take.">
+        <span class="blog-tag tag-personal">Personal</span>
+        <h3>The Courage to Be a Beginner Again</h3>
+        <p class="excerpt">We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting
+          over in any craft is humbling in a way that growth demands.</p>
+        <div class="meta"><span class="date">Feb 5, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+      <div class="blog-card reveal reveal-delay-2" data-category="review"
+        data-title="The Bear — Chaos, Craft, and Kitchen Heat"
+        data-body="The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's one of the most compelling things on television.\n\nAt its core, The Bear is about transformation — not just of a sandwich shop, but of people carrying grief, ambition, and the weight of family legacy. Every shout across the kitchen is a confession in disguise.\n\nThe cinematography is relentless. The pacing is breathless. And yet, in its quietest moments — a shared cigarette, a whispered 'yes, chef' — The Bear finds its soul.">
+        <span class="blog-tag tag-review">Review</span>
+        <h3>The Bear — Chaos, Craft, and Kitchen Heat</h3>
+        <p class="excerpt">The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's
+          one of the most compelling things on television.</p>
+        <div class="meta"><span class="date">Jan 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
+            More</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Modal -->
+  <div class="modal-overlay" id="blogModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="blog-tag" id="modalTag"></span>
+      <h2 id="modalTitle"></h2>
+      <span class="date" id="modalDate"></span>
+      <div class="body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PORTFOLIO ═══════════════════ -->
+  <section class="section section-alt" id="portfolio">
+    <h2 class="section-title reveal">Portfolio <span class="gradient-text">Highlights</span></h2>
+    <p class="section-sub reveal">Selected works that showcase clarity, creativity, and impact.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-card reveal">
+        <h4>The Art of Professional Blogging</h4>
+        <p class="impact">"Bridging expertise with genuine reader curiosity."</p>
+        <span class="cat-label">Professional</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-1">
+        <h4>Why I Write When No One's Reading</h4>
+        <p class="impact">"An honest look at writing for meaning over metrics."</p>
+        <span class="cat-label">Personal</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-2">
+        <h4>Severance — Identity Split Review</h4>
+        <p class="impact">"Exploring dystopia through the lens of corporate routine."</p>
+        <span class="cat-label">Review</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-3">
+        <h4>Content Strategy Guide</h4>
+        <p class="impact">"Turning content chaos into clear, converting strategy."</p>
+        <span class="cat-label">Professional</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-4">
+        <h4>The Bear — Series Review</h4>
+        <p class="impact">"A visceral dive into grief, ambition, and kitchen culture."</p>
+        <span class="cat-label">Review</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-5">
+        <h4>The Courage to Begin Again</h4>
+        <p class="impact">"Why starting over is the bravest step forward."</p>
+        <span class="cat-label">Personal</span>
+        <a href="#blogs" class="btn-sm">View Blog</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ REVIEWS ═══════════════════ -->
+  <section class="section reviews-section" id="reviews">
+    <h2 class="section-title reveal">Series <span class="gradient-text">Reviews</span></h2>
+    <p class="section-sub reveal">In-depth, creative takes on the shows worth talking about.</p>
+    <div class="review-grid">
+      <div class="review-card reveal">
+        <h3>Severance</h3>
+        <p class="genre">Sci-Fi · Thriller · Drama</p>
+        <div class="stars">★★★★★</div>
+        <p class="snippet">"Dystopia dressed in office casual. Severance doesn't just tell a story — it rewrites what
+          identity means."</p>
+        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <h3>The Bear</h3>
+        <p class="genre">Drama · Comedy</p>
+        <div class="stars">★★★★★</div>
+        <p class="snippet">"An anxiety attack wrapped in an apron. Raw, relentless, and achingly human."</p>
+        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <h3>Fleabag</h3>
+        <p class="genre">Comedy · Drama</p>
+        <div class="stars">★★★★★</div>
+        <p class="snippet">"Breaking the fourth wall — and your heart. Phoebe Waller-Bridge turns chaos into poetry."
+        </p>
+        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CONTACT ═══════════════════ -->
+  <section class="section" id="contact">
+    <h2 class="section-title reveal">Get in <span class="gradient-text">Touch</span></h2>
+    <p class="section-sub reveal">Have a project in mind? Let's start a conversation.</p>
+    <div class="contact-grid">
+      <form class="contact-form reveal"
+        onsubmit="event.preventDefault();alert('Thank you! Your message has been noted.')">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <input type="text" placeholder="Subject" />
+        <textarea placeholder="Your Message..." required></textarea>
+        <button type="submit" class="btn-primary" style="width:fit-content">Send Message</button>
+      </form>
+      <div class="contact-info reveal">
+        <h3>Let's Connect</h3>
+        <p>Whether it's a collaboration, a guest blog, or just a friendly hello — I'd love to hear from you.</p>
+        <p>📧 <a href="mailto:riyasvinod121@gmail.com" class="email-link">riyasvinod121@gmail.com</a></p>
+        <div class="social-icons">
+          <a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" class="social-icon"
+            aria-label="LinkedIn"><svg viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg></a>
+          <a href="mailto:riyasvinod121@gmail.com" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h4
+          style="font-family:'Playfair Display',serif;font-size:1.3rem;background:var(--accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+          Riri Blogs</h4>
+        <p style="margin:.5rem 0">"Blogging is connection, not code."</p>
+        <p style="font-size:.82rem">by <strong>Riya S Vinod</strong></p>
+        <div class="newsletter-input" style="margin-top:1rem">
+          <input type="email" placeholder="Your email for updates" />
+          <button type="button">Subscribe</button>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#blogs">Blogs</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="social-icons" style="margin-top:0">
+          <a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" class="social-icon"
+            aria-label="LinkedIn"><svg viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg></a>
+          <a href="mailto:riyasvinod121@gmail.com" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Riri Blogs — Riya S Vinod. All rights reserved. Crafted with words and intention.
+    </div>
+  </footer>
+
+  <script>
+    /* ═══ CURSOR GLOW ═══ */
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px' });
+
+    /* ═══ DARK MODE ═══ */
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.textContent = '☀️' }
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+      themeToggle.textContent = isDark ? '🌙' : '☀️';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    });
+
+    /* ═══ HAMBURGER ═══ */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('open') });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { navLinks.classList.remove('open'); hamburger.classList.remove('active') }));
+
+    /* ═══ PROGRESS BAR ═══ */
+    window.addEventListener('scroll', () => { const h = document.documentElement; document.getElementById('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%' });
+
+    /* ═══ SCROLL REVEAL ═══ */
+    const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }) }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ═══ BLOG FILTER ═══ */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.blog-card').forEach((card, i) => {
+          const match = f === 'all' || card.dataset.category === f;
+          card.style.transition = 'opacity .3s ease, transform .3s ease';
+          if (match) {
+            card.style.display = ''; card.style.opacity = '0'; card.style.transform = 'translateY(16px)';
+            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)' }, i * 80);
+          } else { card.style.opacity = '0'; card.style.transform = 'scale(.96)'; setTimeout(() => { card.style.display = 'none' }, 300) }
+        });
+      });
+    });
+
+    /* ═══ BLOG MODAL ═══ */
+    function openModal(btn) {
+      const c = btn.closest('.blog-card'), tag = c.querySelector('.blog-tag'), mt = document.getElementById('modalTag');
+      mt.textContent = tag.textContent; mt.className = 'blog-tag ' + tag.classList[1];
+      document.getElementById('modalTitle').textContent = c.dataset.title;
+      document.getElementById('modalDate').textContent = c.querySelector('.date').textContent;
+      document.getElementById('modalBody').innerHTML = c.dataset.body.replace(/\\n/g, '<br/><br/>');
+      document.getElementById('blogModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() { document.getElementById('blogModal').classList.remove('active'); document.body.style.overflow = '' }
+    document.getElementById('blogModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal() });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() });
+
+    /* ═══ MAGNETIC BUTTONS ═══ */
+    document.querySelectorAll('.btn-primary, .btn-outline, .nav-sub').forEach(btn => {
+      btn.addEventListener('mousemove', e => { const r = btn.getBoundingClientRect(); const x = (e.clientX - r.left - r.width / 2) * .15; const y = (e.clientY - r.top - r.height / 2) * .15; btn.style.transform = `translate(${x}px,${y}px)` });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = '' });
+    });
+  </script>
+</body>
+
+</html>
