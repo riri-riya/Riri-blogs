@@ -1351,6 +1351,65 @@
         --angle: 360deg
       }
     }
+
+    /* ═══ STAR RATINGS ═══ */
+    .star-rating-widget {
+      margin: .6rem 0 .9rem;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem
+    }
+
+    .star-row {
+      display: flex;
+      gap: 2px
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.15rem;
+      color: #d1c4e9;
+      transition: color .18s, transform .15s;
+      padding: 1px;
+      line-height: 1
+    }
+
+    .star-btn:hover,
+    .star-btn.hovered,
+    .star-btn.lit {
+      color: #f59e0b
+    }
+
+    .star-btn.lit {
+      transform: scale(1.12)
+    }
+
+    .star-btn.already-voted {
+      cursor: default
+    }
+
+    .rating-info {
+      font-size: .74rem;
+      color: var(--text3);
+      font-weight: 500
+    }
+
+    .rating-info .avg {
+      color: #f59e0b;
+      font-weight: 700
+    }
+
+    .rating-info .voted-note {
+      color: var(--accent-solid);
+      font-style: italic
+    }
+
+    .star-skeleton {
+      font-size: .74rem;
+      color: var(--text3)
+    }
   </style>
 </head>
 
@@ -1445,61 +1504,121 @@
     </div>
     <div class="blog-grid">
       <!-- ADD NEW BLOG CARDS BELOW THIS LINE -->
-      <div class="blog-card reveal" data-category="professional" data-title="The Art of Professional Blogging"
+      <div class="blog-card reveal" data-category="professional" data-post-id="post-art-of-blogging" data-title="The Art of Professional Blogging"
         data-body="Professional blogging isn't about filling pages — it's about filling gaps. When done right, a blog becomes a bridge between expertise and curiosity, connecting brands with audiences who genuinely care.\n\nThe best professional blogs don't just inform; they invite. They turn complex ideas into accessible insights, making readers feel empowered rather than overwhelmed. This is where strategy meets storytelling.\n\nEvery blog post should answer one key question: Why should the reader care? If you can nail that, you've already won half the battle. The rest is craft — structure, tone, rhythm, and a conclusion that leaves them wanting more.">
         <span class="blog-tag tag-professional">Professional</span>
         <h3>The Art of Professional Blogging</h3>
         <p class="excerpt">Professional blogging isn't about filling pages — it's about filling gaps. When done right, a
           blog becomes a bridge between expertise and curiosity.</p>
+        <div class="star-rating-widget" data-post-id="post-art-of-blogging">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Feb 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
-      <div class="blog-card reveal reveal-delay-1" data-category="personal"
+      <div class="blog-card reveal reveal-delay-1" data-category="personal" data-post-id="post-why-i-write"
         data-title="Why I Write When No One's Reading"
         data-body="There's a version of writing that exists only for the writer. It's messy, raw, and deeply personal. No SEO keywords, no target audience — just thoughts finding their shape on a blank page.\n\nI started writing long before anyone read a word I published. Those early pieces weren't polished. They were honest. And honestly, they taught me more about my voice than any writing course ever could.\n\nWriting when no one's reading is an act of faith. You're trusting that the words matter — not because of metrics, but because of meaning. That's where the magic begins.">
         <span class="blog-tag tag-personal">Personal</span>
         <h3>Why I Write When No One's Reading</h3>
         <p class="excerpt">There's a version of writing that exists only for the writer. It's messy, raw, and deeply
           personal. No SEO keywords, no target audience — just thoughts finding shape.</p>
+        <div class="star-rating-widget" data-post-id="post-why-i-write">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Feb 22, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
-      <div class="blog-card reveal reveal-delay-2" data-category="review"
+      <div class="blog-card reveal reveal-delay-2" data-category="review" data-post-id="post-severance-review"
         data-title="Severance — A Review of Identity Split"
         data-body="Severance doesn't just tell a story — it asks a question that lingers long after the credits roll: What if you could split your work self from your personal self?\n\nThe show builds tension not through action, but through the unsettling quiet of corporate routine. Every hallway feels like a mystery. Every smile from a colleague feels rehearsed. It's dystopia dressed in office casual.\n\nWhat makes Severance brilliant is its restraint. It trusts the viewer to sit with discomfort, to piece together the puzzle without spoon-feeding answers. A masterclass in slow-burn storytelling.">
         <span class="blog-tag tag-review">Review</span>
         <h3>Severance — A Review of Identity Split</h3>
         <p class="excerpt">Severance doesn't just tell a story — it asks a question that lingers long after the credits
           roll. Dystopia dressed in office casual.</p>
+        <div class="star-rating-widget" data-post-id="post-severance-review">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Feb 15, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
-      <div class="blog-card reveal" data-category="professional" data-title="Content Strategy Isn't Optional Anymore"
+      <div class="blog-card reveal" data-category="professional" data-post-id="post-content-strategy" data-title="Content Strategy Isn't Optional Anymore"
         data-body="In an era where content is currency, strategy is the vault. Without a clear plan, even the most brilliant writing gets lost in the noise.\n\nContent strategy starts with understanding your audience — not demographics, but desires. What keeps them scrolling? What makes them stop? Answer those questions, and you have the foundation for content that converts.\n\nA good strategy doesn't limit creativity; it channels it. Think of it as the riverbank that gives direction to flowing water. Without banks, you just have a flood.">
         <span class="blog-tag tag-professional">Professional</span>
         <h3>Content Strategy Isn't Optional Anymore</h3>
         <p class="excerpt">In an era where content is currency, strategy is the vault. Without a clear plan, even the
           most brilliant writing gets lost in the noise.</p>
+        <div class="star-rating-widget" data-post-id="post-content-strategy">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Feb 10, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
-      <div class="blog-card reveal reveal-delay-1" data-category="personal"
+      <div class="blog-card reveal reveal-delay-1" data-category="personal" data-post-id="post-courage-beginner"
         data-title="The Courage to Be a Beginner Again"
         data-body="We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting over in any craft — writing, painting, coding — is humbling in a way that growth demands.\n\nI've rewritten my voice multiple times. Each time felt like losing something familiar. But what I gained was always richer: a deeper understanding of why I write, who I write for, and what I want my words to do.\n\nBeing a beginner isn't a step backward. It's the bravest step forward you can take.">
         <span class="blog-tag tag-personal">Personal</span>
         <h3>The Courage to Be a Beginner Again</h3>
         <p class="excerpt">We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting
           over in any craft is humbling in a way that growth demands.</p>
+        <div class="star-rating-widget" data-post-id="post-courage-beginner">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Feb 5, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
-      <div class="blog-card reveal reveal-delay-2" data-category="review"
+      <div class="blog-card reveal reveal-delay-2" data-category="review" data-post-id="post-the-bear-review"
         data-title="The Bear — Chaos, Craft, and Kitchen Heat"
         data-body="The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's one of the most compelling things on television.\n\nAt its core, The Bear is about transformation — not just of a sandwich shop, but of people carrying grief, ambition, and the weight of family legacy. Every shout across the kitchen is a confession in disguise.\n\nThe cinematography is relentless. The pacing is breathless. And yet, in its quietest moments — a shared cigarette, a whispered 'yes, chef' — The Bear finds its soul.">
         <span class="blog-tag tag-review">Review</span>
         <h3>The Bear — Chaos, Craft, and Kitchen Heat</h3>
         <p class="excerpt">The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's
           one of the most compelling things on television.</p>
+        <div class="star-rating-widget" data-post-id="post-the-bear-review">
+          <div class="star-row">
+            <button class="star-btn" data-value="1">★</button>
+            <button class="star-btn" data-value="2">★</button>
+            <button class="star-btn" data-value="3">★</button>
+            <button class="star-btn" data-value="4">★</button>
+            <button class="star-btn" data-value="5">★</button>
+          </div>
+          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
+        </div>
         <div class="meta"><span class="date">Jan 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
             More</button></div>
       </div>
@@ -1608,14 +1727,14 @@
       <div class="contact-info reveal">
         <h3>Let's Connect</h3>
         <p>Whether it's a collaboration, a guest blog, or just a friendly hello — I'd love to hear from you.</p>
-        <p>📧 <a href="mailto:riyasvinod121@gmail.com" class="email-link">riyasvinod121@gmail.com</a></p>
+        <p>📧 <a href="/cdn-cgi/l/email-protection#04766d7d6577726d6a6b60353635446369656d682a676b69" class="email-link"><span class="__cf_email__" data-cfemail="15677c6c7466637c7b7a71242724557278747c793b767a78">[email&#160;protected]</span></a></p>
         <div class="social-icons">
           <a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" class="social-icon"
             aria-label="LinkedIn"><svg viewBox="0 0 24 24">
               <path
                 d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
             </svg></a>
-          <a href="mailto:riyasvinod121@gmail.com" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
+          <a href="/cdn-cgi/l/email-protection#76041f0f1705001f18191247444736111b171f1a5815191b" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
               <path
                 d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg></a>
@@ -1657,7 +1776,7 @@
               <path
                 d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
             </svg></a>
-          <a href="mailto:riyasvinod121@gmail.com" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
+          <a href="/cdn-cgi/l/email-protection#beccd7c7dfcdc8d7d0d1da8f8c8ffed9d3dfd7d290ddd1d3" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
               <path
                 d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg></a>
@@ -1668,7 +1787,99 @@
     </div>
   </footer>
 
-  <script>
+  <!-- ═══ FIREBASE SDK ═══ -->
+  <script type="module">
+    // ─────────────────────────────────────────────────────────────────
+    // FIREBASE SETUP — Replace the values below with YOUR project's config.
+    // Steps to get config:
+    //   1. Go to https://console.firebase.google.com
+    //   2. Create a project (free) → Add a Web App
+    //   3. Copy the firebaseConfig object shown and paste it here
+    //   4. In Firebase console → Build → Realtime Database → Create database
+    //      (Start in "test mode" for now — you can lock it down later)
+    // ─────────────────────────────────────────────────────────────────
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey:            "AIzaSyAleMfumaCAfvdylZaIfHmngBGb-Pycwd8",
+      authDomain:        "riri-blogs.firebaseapp.com",
+      databaseURL:       "https://riri-blogs-default-rtdb.asia-southeast1.firebasedatabase.app/",
+      projectId:         "riri-blogs",
+      storageBucket:     "riri-blogs.firebasestorage.app",
+      messagingSenderId: "670529299510",
+      appId:             "1:670529299510:web:caa6a0bda8f07106016497"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    // ── Per-visitor vote memory (survives page refresh) ──
+    const voted = JSON.parse(localStorage.getItem('riri_votes') || '{}');
+
+    function saveVoted(postId, stars) {
+      voted[postId] = stars;
+      localStorage.setItem('riri_votes', JSON.stringify(voted));
+    }
+
+    function renderStars(widget, avg, count, myVote) {
+      const row  = widget.querySelector('.star-row');
+      const info = widget.querySelector('.rating-info');
+      const stars = row.querySelectorAll('.star-btn');
+      const filled = myVote || Math.round(avg);
+
+      stars.forEach(btn => {
+        const v = parseInt(btn.dataset.value);
+        btn.classList.toggle('lit', v <= filled);
+        btn.classList.toggle('already-voted', !!myVote);
+        btn.disabled = !!myVote;
+        if (!myVote) {
+          btn.onmouseenter = () => stars.forEach(b => b.classList.toggle('hovered', parseInt(b.dataset.value) <= v));
+          btn.onmouseleave = () => stars.forEach(b => b.classList.remove('hovered'));
+        }
+      });
+
+      if (count === 0) {
+        info.innerHTML = '<span>Be the first to rate this ✨</span>';
+      } else {
+        const avgText = avg.toFixed(1);
+        const note = myVote ? `<span class="voted-note"> · You rated ${myVote}★</span>` : '';
+        info.innerHTML = `<span class="avg">${avgText}★</span> from ${count} reader${count !== 1 ? 's' : ''}${note}`;
+      }
+    }
+
+    function initWidget(widget) {
+      const postId = widget.dataset.postId;
+      const dbRef  = ref(db, `ratings/${postId}`);
+      const myVote = voted[postId] || null;
+
+      // Live-listen to rating changes from Firebase
+      onValue(dbRef, snap => {
+        const data  = snap.val() || { total: 0, count: 0 };
+        const avg   = data.count > 0 ? data.total / data.count : 0;
+        renderStars(widget, avg, data.count, myVote);
+      });
+
+      // Handle click
+      widget.querySelector('.star-row').addEventListener('click', e => {
+        const btn = e.target.closest('.star-btn');
+        if (!btn || voted[postId]) return;
+        const stars = parseInt(btn.dataset.value);
+        saveVoted(postId, stars);
+
+        // Atomic increment in Firebase
+        runTransaction(dbRef, current => {
+          if (!current) return { total: stars, count: 1 };
+          return { total: current.total + stars, count: current.count + 1 };
+        });
+      });
+    }
+
+    // Boot all widgets once DOM is ready
+    document.querySelectorAll('.star-rating-widget').forEach(initWidget);
+  </script>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     /* ═══ CURSOR GLOW ═══ */
     const glow = document.getElementById('cursorGlow');
     document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px' });
@@ -1725,10 +1936,17 @@
 
     /* ═══ MAGNETIC BUTTONS ═══ */
     document.querySelectorAll('.btn-primary, .btn-outline, .nav-sub').forEach(btn => {
-      btn.addEventListener('mousemove', e => { const r = btn.getBoundingClientRect(); const x = (e.clientX - r.left - r.width / 2) * .15; const y = (e.clientY - r.top - r.height / 2) * .15; btn.style.transform = `translate(${x}px,${y}px)` });
-      btn.addEventListener('mouseleave', () => { btn.style.transform = '' });
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
     });
   </script>
 </body>
-
 </html>
