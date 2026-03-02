@@ -1,1952 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Riri Blogs — Riya S Vinod | Writing that Connects</title>
-  <meta name="description"
-    content="Portfolio and blog hub by Riya S Vinod — professional insights, persuasive reflections, creative storytelling, and series reviews." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riri Blogs | Riya S Vinod</title>
+  <meta name="description" content="An immersive literary portfolio and blog site for Riya S Vinod." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,700&display=swap"
-    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
-
-    :root {
-      --bg: #fdfdff;
-      --bg2: #f5f3fa;
-      --bg3: #edeaf5;
-      --text: #1e1535;
-      --text2: #4d4565;
-      --text3: #8a839a;
-      --accent: linear-gradient(135deg, #7c3aed, #c026d3, #e11d48);
-      --accent2: linear-gradient(135deg, #7c3aed, #a855f7, #c026d3, #e11d48);
-      --accent-solid: #7c3aed;
-      --pink: #c026d3;
-      --red: #e11d48;
-      --glass: rgba(255, 255, 255, .55);
-      --glass-border: rgba(255, 255, 255, .6);
-      --card: #ffffff;
-      --card-border: rgba(124, 58, 237, .1);
-      --shadow: 0 4px 30px rgba(44, 38, 64, .07);
-      --shadow-hover: 0 12px 48px rgba(124, 58, 237, .18);
-      --radius: 20px;
-      --nav-h: 72px;
-      --transition: all .4s cubic-bezier(.22, 1, .36, 1);
-    }
-
-    [data-theme="dark"] {
-      --bg: #0a0614;
-      --bg2: #110d20;
-      --bg3: #1a1330;
-      --text: #f0ecfa;
-      --text2: #b5adc8;
-      --text3: #6e6688;
-      --glass: rgba(20, 14, 40, .6);
-      --glass-border: rgba(124, 58, 237, .2);
-      --card: #13102a;
-      --card-border: rgba(124, 58, 237, .15);
-      --shadow: 0 4px 30px rgba(0, 0, 0, .25);
-      --shadow-hover: 0 12px 48px rgba(124, 58, 237, .25);
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 80px
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
-      transition: background .5s, color .5s
-    }
-
-    /* ═══ PROGRESS BAR ═══ */
-    #progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      background: var(--accent);
-      z-index: 9999;
-      width: 0;
-      border-radius: 0 2px 2px 0
-    }
-
-    /* ═══ CURSOR GLOW (desktop) ═══ */
-    .cursor-glow {
-      position: fixed;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(124, 58, 237, .08) 0%, transparent 70%);
-      z-index: 0;
-      transform: translate(-50%, -50%);
-      transition: opacity .3s;
-      opacity: 0
-    }
-
-    body:hover .cursor-glow {
-      opacity: 1
-    }
-
-    @media(max-width:768px) {
-      .cursor-glow {
-        display: none
-      }
-    }
-
-    /* ═══ NAVBAR ═══ */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--glass);
-      backdrop-filter: blur(20px) saturate(1.6);
-      -webkit-backdrop-filter: blur(20px) saturate(1.6);
-      border-bottom: 1px solid var(--glass-border);
-      height: var(--nav-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(1rem, 5vw, 4rem);
-      transition: var(--transition)
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text2);
-      font-weight: 500;
-      font-size: .9rem;
-      position: relative;
-      transition: var(--transition)
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-solid)
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: all .3s;
-      transform: translateX(-50%)
-    }
-
-    .nav-links a:hover::after {
-      width: 100%
-    }
-
-    .nav-sub {
-      padding: .55rem 1.5rem;
-      border: none;
-      border-radius: 50px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
-      font-size: .85rem;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      box-shadow: 0 2px 15px rgba(124, 58, 237, .25)
-    }
-
-    .nav-sub:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 6px 25px rgba(124, 58, 237, .4)
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: .7rem
-    }
-
-    .theme-toggle {
-      background: var(--glass);
-      border: 1.5px solid var(--card-border);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.05rem;
-      transition: var(--transition);
-      color: var(--text);
-      backdrop-filter: blur(10px)
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--accent-solid);
-      transform: rotate(20deg) scale(1.1)
-    }
-
-    @media(max-width:900px) {
-      .navbar {
-        flex-wrap: wrap;
-        height: auto;
-        padding: .6rem clamp(.8rem, 3vw, 2rem);
-        gap: .4rem
-      }
-
-      .nav-links {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        gap: .8rem;
-        flex-wrap: wrap;
-        padding-bottom: .4rem
-      }
-
-      .nav-links a {
-        font-size: .78rem
-      }
-
-      .nav-sub {
-        display: none
-      }
-    }
-
-    /* ═══ HERO ═══ */
-    .hero {
-      min-height: calc(100vh - var(--nav-h));
-      display: flex;
-      align-items: center;
-      padding: 4rem clamp(1.2rem, 5vw, 4rem);
-      gap: 3rem;
-      position: relative;
-      overflow: hidden
-    }
-
-    .hero-bg-grid {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(124, 58, 237, .06) 1px, transparent 1px);
-      background-size: 32px 32px;
-      z-index: 0
-    }
-
-    .hero-content {
-      flex: 1;
-      max-width: 620px;
-      z-index: 2
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 5.5vw, 4rem);
-      line-height: 1.12;
-      margin-bottom: 1.3rem;
-      letter-spacing: -.02em
-    }
-
-    .hero h1 .gradient-text {
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text2);
-      margin-bottom: 2.2rem;
-      max-width: 500px;
-      line-height: 1.8
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap
-    }
-
-    .btn-primary {
-      padding: .85rem 2.2rem;
-      border-radius: 50px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: .92rem;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, .25)
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 8px 32px rgba(124, 58, 237, .35)
-    }
-
-    .btn-outline {
-      padding: .85rem 2.2rem;
-      border-radius: 50px;
-      background: transparent;
-      color: var(--accent-solid);
-      font-weight: 600;
-      border: 2px solid rgba(124, 58, 237, .3);
-      cursor: pointer;
-      text-decoration: none;
-      font-size: .92rem;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      backdrop-filter: blur(4px)
-    }
-
-    .btn-outline:hover {
-      background: var(--accent-solid);
-      color: #fff;
-      border-color: var(--accent-solid);
-      transform: translateY(-3px)
-    }
-
-    .hero-art {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      min-height: 420px
-    }
-
-    .gradient-blob {
-      width: 400px;
-      height: 400px;
-      border-radius: 50% 40% 60% 50%/50% 60% 40% 50%;
-      background: conic-gradient(from 180deg, #7c3aed, #a855f7, #c026d3, #e11d48, #fb923c, #e11d48, #c026d3, #7c3aed);
-      animation: morphBlob 10s ease-in-out infinite, spinBlob 20s linear infinite;
-      filter: blur(2px);
-      opacity: .8
-    }
-
-    @keyframes morphBlob {
-
-      0%,
-      100% {
-        border-radius: 50% 40% 60% 50%/50% 60% 40% 50%;
-        transform: scale(1)
-      }
-
-      25% {
-        border-radius: 40% 60% 50% 50%/60% 40% 50% 50%
-      }
-
-      50% {
-        border-radius: 60% 50% 40% 50%/40% 50% 60% 50%;
-        transform: scale(1.04)
-      }
-
-      75% {
-        border-radius: 45% 55% 55% 45%/55% 45% 45% 55%
-      }
-    }
-
-    @keyframes spinBlob {
-      from {
-        rotate: 0deg
-      }
-
-      to {
-        rotate: 360deg
-      }
-    }
-
-    .blob-ring {
-      position: absolute;
-      width: 460px;
-      height: 460px;
-      border-radius: 50%;
-      border: 1.5px dashed rgba(124, 58, 237, .15);
-      animation: spinBlob 30s linear infinite reverse
-    }
-
-    .floating-icon {
-      position: absolute;
-      font-size: 1.4rem;
-      opacity: .65;
-      z-index: 3;
-      animation-duration: 5s;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite
-    }
-
-    .floating-icon:nth-child(2) {
-      top: 8%;
-      left: 12%;
-      animation-name: float1
-    }
-
-    .floating-icon:nth-child(3) {
-      top: 18%;
-      right: 8%;
-      animation-name: float2;
-      animation-delay: .8s
-    }
-
-    .floating-icon:nth-child(4) {
-      bottom: 22%;
-      left: 8%;
-      animation-name: float3;
-      animation-delay: 1.6s
-    }
-
-    .floating-icon:nth-child(5) {
-      bottom: 12%;
-      right: 18%;
-      animation-name: float1;
-      animation-delay: 2.4s
-    }
-
-    .floating-icon:nth-child(6) {
-      top: 48%;
-      left: 3%;
-      animation-name: float2;
-      animation-delay: 1.2s
-    }
-
-    .floating-icon:nth-child(7) {
-      top: 3%;
-      right: 28%;
-      animation-name: float3;
-      animation-delay: 2s
-    }
-
-    @keyframes float1 {
-
-      0%,
-      100% {
-        transform: translate(0, 0) rotate(0deg)
-      }
-
-      50% {
-        transform: translate(8px, -16px) rotate(10deg)
-      }
-    }
-
-    @keyframes float2 {
-
-      0%,
-      100% {
-        transform: translate(0, 0) rotate(0deg)
-      }
-
-      50% {
-        transform: translate(-10px, -12px) rotate(-8deg)
-      }
-    }
-
-    @keyframes float3 {
-
-      0%,
-      100% {
-        transform: translate(0, 0) rotate(0deg)
-      }
-
-      50% {
-        transform: translate(6px, -20px) rotate(12deg)
-      }
-    }
-
-    @media(max-width:768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-        padding-top: 2rem
-      }
-
-      .hero p {
-        margin-left: auto;
-        margin-right: auto
-      }
-
-      .hero-btns {
-        justify-content: center
-      }
-
-      .hero-art {
-        min-height: 300px
-      }
-
-      .gradient-blob {
-        width: 260px;
-        height: 260px
-      }
-
-      .blob-ring {
-        width: 310px;
-        height: 310px
-      }
-    }
-
-    /* ═══ SECTIONS COMMON ═══ */
-    .section {
-      padding: 6rem clamp(1.2rem, 5vw, 4rem);
-      position: relative
-    }
-
-    .section-alt {
-      background: var(--bg2)
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      text-align: center;
-      margin-bottom: .6rem;
-      letter-spacing: -.01em
-    }
-
-    .section-title .gradient-text {
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .section-sub {
-      text-align: center;
-      color: var(--text2);
-      max-width: 520px;
-      margin: 0 auto 3.5rem;
-      font-size: 1rem
-    }
-
-    /* Scroll Reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(36px);
-      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0)
-    }
-
-    .reveal-delay-1 {
-      transition-delay: .1s
-    }
-
-    .reveal-delay-2 {
-      transition-delay: .2s
-    }
-
-    .reveal-delay-3 {
-      transition-delay: .3s
-    }
-
-    .reveal-delay-4 {
-      transition-delay: .4s
-    }
-
-    .reveal-delay-5 {
-      transition-delay: .5s
-    }
-
-    /* ═══ ABOUT ═══ */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center
-    }
-
-    .about-text h3 {
-      font-size: 1.15rem;
-      margin-bottom: .6rem;
-      color: var(--accent-solid);
-      font-weight: 700
-    }
-
-    .about-text p {
-      color: var(--text2);
-      margin-bottom: 1.3rem;
-      font-size: .95rem
-    }
-
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin-top: 1.2rem
-    }
-
-    .skill-tag {
-      padding: .4rem 1rem;
-      border-radius: 50px;
-      background: var(--glass);
-      font-size: .8rem;
-      font-weight: 500;
-      color: var(--accent-solid);
-      border: 1.5px solid var(--card-border);
-      transition: var(--transition);
-      cursor: default;
-      backdrop-filter: blur(6px)
-    }
-
-    .skill-tag:hover {
-      background: var(--accent-solid);
-      color: #fff;
-      border-color: var(--accent-solid);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(124, 58, 237, .25)
-    }
-
-    .about-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center
-    }
-
-    .about-shape {
-      width: 300px;
-      height: 300px;
-      border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
-      background: linear-gradient(135deg, rgba(124, 58, 237, .12), rgba(192, 38, 211, .12));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4.5rem;
-      animation: morphBlob 12s ease-in-out infinite;
-      position: relative;
-      backdrop-filter: blur(8px);
-      border: 1.5px solid rgba(124, 58, 237, .12)
-    }
-
-    .about-shape::before {
-      content: '';
-      position: absolute;
-      inset: -12px;
-      border-radius: inherit;
-      border: 1.5px dashed rgba(124, 58, 237, .12);
-      animation: spinBlob 25s linear infinite
-    }
-
-    @media(max-width:768px) {
-      .about-grid {
-        grid-template-columns: 1fr
-      }
-
-      .about-visual {
-        order: -1
-      }
-
-      .about-shape {
-        width: 220px;
-        height: 220px;
-        font-size: 3.5rem
-      }
-    }
-
-    /* ═══ GLASS CARD MIXIN ═══ */
-    .glass-card {
-      background: var(--glass);
-      backdrop-filter: blur(16px) saturate(1.4);
-      -webkit-backdrop-filter: blur(16px) saturate(1.4);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: var(--transition)
-    }
-
-    .glass-card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-6px)
-    }
-
-    /* ═══ BLOGS ═══ */
-    .filter-bar {
-      display: flex;
-      justify-content: center;
-      gap: .6rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap
-    }
-
-    .filter-btn {
-      padding: .5rem 1.4rem;
-      border-radius: 50px;
-      border: 1.5px solid var(--card-border);
-      background: var(--glass);
-      backdrop-filter: blur(8px);
-      color: var(--text2);
-      font-weight: 500;
-      font-size: .85rem;
-      cursor: pointer;
-      transition: var(--transition)
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--accent-solid);
-      color: #fff;
-      border-color: var(--accent-solid);
-      box-shadow: 0 4px 16px rgba(124, 58, 237, .25)
-    }
-
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 2rem
-    }
-
-    .blog-card {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column
-    }
-
-    .blog-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .5s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .blog-card:hover::before {
-      transform: scaleX(1)
-    }
-
-    .blog-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-hover)
-    }
-
-    .blog-card::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(124, 58, 237, .04) 0%, transparent 60%);
-      pointer-events: none;
-      transition: var(--transition)
-    }
-
-    .blog-card:hover::after {
-      top: -30%;
-      right: -30%
-    }
-
-    .blog-tag {
-      display: inline-block;
-      padding: .25rem .8rem;
-      border-radius: 50px;
-      font-size: .72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      margin-bottom: .8rem;
-      width: fit-content
-    }
-
-    .tag-professional {
-      background: rgba(124, 58, 237, .1);
-      color: #7c3aed
-    }
-
-    .tag-personal {
-      background: rgba(192, 38, 211, .1);
-      color: #c026d3
-    }
-
-    .tag-review {
-      background: rgba(225, 29, 72, .1);
-      color: #e11d48
-    }
-
-    .blog-card h3 {
-      font-size: 1.12rem;
-      margin-bottom: .6rem;
-      line-height: 1.4;
-      font-weight: 700
-    }
-
-    .blog-card .excerpt {
-      color: var(--text2);
-      font-size: .9rem;
-      margin-bottom: 1.2rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      flex: 1
-    }
-
-    .blog-card .meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center
-    }
-
-    .blog-card .date {
-      color: var(--text3);
-      font-size: .8rem
-    }
-
-    .read-more {
-      background: none;
-      border: none;
-      color: var(--accent-solid);
-      font-weight: 600;
-      font-size: .85rem;
-      cursor: pointer;
-      transition: var(--transition);
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem
-    }
-
-    .read-more:hover {
-      gap: .6rem;
-      color: var(--pink)
-    }
-
-    .read-more::after {
-      content: '→';
-      transition: var(--transition)
-    }
-
-    /* ═══ MODAL ═══ */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 6, 20, .65);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem
-    }
-
-    .modal-overlay.active {
-      display: flex
-    }
-
-    .modal {
-      background: var(--bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      max-width: 680px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 2.5rem;
-      position: relative;
-      animation: modalIn .45s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: translateY(24px) scale(.96)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1.2rem;
-      background: var(--glass);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      color: var(--text3);
-      transition: var(--transition)
-    }
-
-    .modal-close:hover {
-      color: #fff;
-      background: var(--accent-solid);
-      border-color: var(--accent-solid);
-      transform: rotate(90deg)
-    }
-
-    .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      margin-bottom: .5rem
-    }
-
-    .modal .blog-tag {
-      margin-bottom: 1rem
-    }
-
-    .modal .date {
-      color: var(--text3);
-      font-size: .85rem;
-      display: block;
-      margin-bottom: 1.5rem
-    }
-
-    .modal .body {
-      color: var(--text2);
-      line-height: 1.9;
-      font-size: .95rem
-    }
-
-    /* ═══ PORTFOLIO ═══ */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 1.5rem
-    }
-
-    .portfolio-card {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: var(--radius);
-      padding: 1.6rem;
-      border: 1px solid var(--glass-border);
-      position: relative;
-      transition: var(--transition);
-      overflow: hidden
-    }
-
-    .portfolio-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent)
-    }
-
-    .portfolio-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover)
-    }
-
-    .portfolio-card h4 {
-      font-size: 1.02rem;
-      margin-bottom: .4rem;
-      font-weight: 700
-    }
-
-    .portfolio-card .impact {
-      color: var(--text2);
-      font-size: .86rem;
-      margin-bottom: .7rem;
-      font-style: italic;
-      line-height: 1.6
-    }
-
-    .portfolio-card .cat-label {
-      font-size: .72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--accent-solid);
-      letter-spacing: .6px;
-      margin-bottom: .8rem;
-      display: block
-    }
-
-    .btn-sm {
-      padding: .45rem 1.2rem;
-      border-radius: 50px;
-      background: transparent;
-      border: 1.5px solid rgba(124, 58, 237, .3);
-      color: var(--accent-solid);
-      font-size: .8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem
-    }
-
-    .btn-sm:hover {
-      background: var(--accent-solid);
-      color: #fff;
-      border-color: var(--accent-solid);
-      transform: translateY(-2px)
-    }
-
-    /* ═══ REVIEWS ═══ */
-    .reviews-section {
-      background: var(--bg3)
-    }
-
-    .review-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 2rem
-    }
-
-    .review-card {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: var(--radius);
-      padding: 2rem;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden
-    }
-
-    .review-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 0;
-      background: var(--accent);
-      transition: height .5s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .review-card:hover::before {
-      height: 100%
-    }
-
-    .review-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover)
-    }
-
-    .review-card h3 {
-      font-size: 1.12rem;
-      margin-bottom: .3rem;
-      font-weight: 700
-    }
-
-    .review-card .genre {
-      color: var(--text3);
-      font-size: .82rem;
-      margin-bottom: .6rem;
-      font-weight: 500
-    }
-
-    .stars {
-      color: #f59e0b;
-      font-size: 1rem;
-      margin-bottom: .8rem;
-      letter-spacing: 3px
-    }
-
-    .review-card .snippet {
-      color: var(--text2);
-      font-size: .9rem;
-      font-style: italic;
-      margin-bottom: 1.3rem;
-      line-height: 1.7
-    }
-
-    /* ═══ CONTACT ═══ */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start
-    }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      padding: .9rem 1.2rem;
-      border-radius: 14px;
-      border: 1.5px solid var(--card-border);
-      background: var(--glass);
-      backdrop-filter: blur(8px);
-      color: var(--text);
-      font-family: inherit;
-      font-size: .93rem;
-      transition: var(--transition);
-      outline: none
-    }
-
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: var(--accent-solid);
-      box-shadow: 0 0 0 4px rgba(124, 58, 237, .08)
-    }
-
-    .contact-form textarea {
-      resize: vertical;
-      min-height: 130px
-    }
-
-    .contact-info h3 {
-      font-size: 1.15rem;
-      margin-bottom: .8rem;
-      font-weight: 700
-    }
-
-    .contact-info p {
-      color: var(--text2);
-      margin-bottom: 1rem;
-      font-size: .93rem;
-      line-height: 1.7
-    }
-
-    .email-link {
-      color: var(--accent-solid);
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition)
-    }
-
-    .email-link:hover {
-      color: var(--pink)
-    }
-
-    .social-icons {
-      display: flex;
-      gap: .8rem;
-      margin-top: 1.2rem
-    }
-
-    .social-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      border: 1.5px solid var(--card-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: var(--text2);
-      font-size: 1rem;
-      transition: var(--transition);
-      background: var(--glass);
-      backdrop-filter: blur(6px)
-    }
-
-    .social-icon:hover {
-      background: var(--accent-solid);
-      color: #fff;
-      border-color: var(--accent-solid);
-      transform: translateY(-4px) rotate(-5deg);
-      box-shadow: 0 6px 20px rgba(124, 58, 237, .3)
-    }
-
-    .social-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor
-    }
-
-    @media(max-width:768px) {
-      .contact-grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* ═══ FOOTER ═══ */
-    .footer {
-      background: var(--bg3);
-      padding: 3.5rem clamp(1.2rem, 5vw, 4rem) 1.5rem;
-      position: relative
-    }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 2px
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 2.5rem;
-      margin-bottom: 2rem
-    }
-
-    .footer h4 {
-      font-size: .95rem;
-      margin-bottom: 1rem;
-      font-weight: 700
-    }
-
-    .footer p,
-    .footer a {
-      color: var(--text2);
-      font-size: .86rem;
-      text-decoration: none;
-      transition: var(--transition)
-    }
-
-    .footer a:hover {
-      color: var(--accent-solid)
-    }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: .5rem
-    }
-
-    .newsletter-input {
-      display: flex;
-      gap: .5rem;
-      margin-top: .6rem
-    }
-
-    .newsletter-input input {
-      flex: 1;
-      padding: .6rem 1rem;
-      border-radius: 50px;
-      border: 1.5px solid var(--card-border);
-      background: var(--glass);
-      backdrop-filter: blur(6px);
-      color: var(--text);
-      font-size: .85rem;
-      outline: none;
-      transition: var(--transition)
-    }
-
-    .newsletter-input input:focus {
-      border-color: var(--accent-solid)
-    }
-
-    .newsletter-input button {
-      padding: .6rem 1.3rem;
-      border-radius: 50px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      font-weight: 600;
-      font-size: .8rem;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap
-    }
-
-    .newsletter-input button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(124, 58, 237, .3)
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--card-border);
-      color: var(--text3);
-      font-size: .8rem
-    }
-
-    @media(max-width:768px) {
-      .footer-grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* ═══ ANIMATED GRADIENT BORDER UTIL ═══ */
-    @property --angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false
-    }
-
-    .gradient-border {
-      position: relative
-    }
-
-    .gradient-border::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: conic-gradient(from var(--angle), #7c3aed, #c026d3, #e11d48, #fb923c, #e11d48, #c026d3, #7c3aed);
-      z-index: -1;
-      animation: rotateBorder 4s linear infinite
-    }
-
-    @keyframes rotateBorder {
-      to {
-        --angle: 360deg
-      }
-    }
-
-    /* ═══ STAR RATINGS ═══ */
-    .star-rating-widget {
-      margin: .6rem 0 .9rem;
-      display: flex;
-      flex-direction: column;
-      gap: .35rem
-    }
-
-    .star-row {
-      display: flex;
-      gap: 2px
-    }
-
-    .star-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.15rem;
-      color: #d1c4e9;
-      transition: color .18s, transform .15s;
-      padding: 1px;
-      line-height: 1
-    }
-
-    .star-btn:hover,
-    .star-btn.hovered,
-    .star-btn.lit {
-      color: #f59e0b
-    }
-
-    .star-btn.lit {
-      transform: scale(1.12)
-    }
-
-    .star-btn.already-voted {
-      cursor: default
-    }
-
-    .rating-info {
-      font-size: .74rem;
-      color: var(--text3);
-      font-weight: 500
-    }
-
-    .rating-info .avg {
-      color: #f59e0b;
-      font-weight: 700
-    }
-
-    .rating-info .voted-note {
-      color: var(--accent-solid);
-      font-style: italic
-    }
-
-    .star-skeleton {
-      font-size: .74rem;
-      color: var(--text3)
-    }
+    :root{--bg-deep:#0d0a14;--bg-mist:#f7f4fc;--bg-soft:#ede8f7;--lavender:#c4b5f4;--lilac:#e2d9f7;--blush:#f4c6d4;--cream:#fdf8f2;--text-hero:#f0ebff;--text-body:#2a1f3d;--text-muted:#8b7ca8;--gold:#e8c97e;--glass:rgba(255,255,255,.68);--line:rgba(196,181,244,.22);--shadow:0 20px 60px rgba(122,95,187,.12);--shadow-strong:0 26px 72px rgba(122,95,187,.18);--max:1200px;--nav:84px;--px:clamp(1.5rem,6vw,5rem);--py:clamp(5rem,10vw,8rem);--grad:linear-gradient(135deg,#b79ef1,#d7b9e9,#ecb4c6);--ease:cubic-bezier(.22,1,.36,1)}
+    [data-theme="dark"]{--bg-mist:#140f22;--bg-soft:#1c1630;--cream:#241c37;--glass:rgba(36,28,55,.74);--text-body:#f0ebff;--text-muted:#b9abd9;--shadow:0 20px 60px rgba(0,0,0,.28);--shadow-strong:0 26px 72px rgba(0,0,0,.36)}
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:90px}body{position:relative;min-height:100vh;overflow-x:hidden;font-family:"DM Sans",sans-serif;line-height:1.75;color:var(--text-body);background:radial-gradient(circle at 10% 10%,rgba(226,217,247,.7),transparent 34%),radial-gradient(circle at 90% 30%,rgba(244,198,212,.35),transparent 30%),linear-gradient(180deg,#f7f4fc,#ede8f7);transition:background .5s,color .5s}a{text-decoration:none;color:inherit}button,input,textarea{font:inherit}button{border:0;background:none;cursor:pointer}svg{display:block}img{max-width:100%;display:block}
+    .site-shell,main,footer,.modal-overlay{position:relative;z-index:1}.wrap{width:min(100%,var(--max));margin:0 auto}.section{padding:var(--py) var(--px)}.section-panel,.doodle-divider,.hero-grid,.footer-shell,.nav-inner{width:min(100%,var(--max));margin:0 auto}.section-head{display:grid;gap:.6rem;text-align:center;max-width:700px;margin:0 auto 3rem}.label,.hero-kicker{font-family:"Dancing Script",cursive;font-size:clamp(1rem,1.9vw,1.35rem);font-weight:600;color:var(--lavender)}.title,.hero-title,.about-title,.contact-quote,.modal-title,.paper-card h3,.review-card h3{font-family:"Cormorant Garamond",serif;letter-spacing:-.02em}.title{font-size:clamp(2.8rem,5vw,4.8rem);line-height:.95}.grad{-webkit-background-clip:text;background-clip:text;color:transparent;background-image:var(--grad)}.copy{max-width:580px;margin:0 auto;color:var(--text-muted)}
+    .cursor-glow{position:fixed;top:0;left:0;width:260px;height:260px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(196,181,244,.12),rgba(196,181,244,.02) 55%,transparent 72%);opacity:0;z-index:0;transition:opacity .3s}body:hover .cursor-glow{opacity:1}#petalLayer{position:absolute;inset:0 0 auto;pointer-events:none;overflow:hidden;z-index:0}.petal{position:absolute;width:42px;height:56px;opacity:.26;will-change:transform}.progress-shell{position:fixed;inset:0 0 auto;z-index:1200;height:4px;background:rgba(196,181,244,.08);pointer-events:none}#progress{height:100%;width:0;background:linear-gradient(90deg,rgba(196,181,244,.95),rgba(244,198,212,.95));box-shadow:0 0 20px rgba(196,181,244,.45)}
+    .navbar{position:sticky;top:0;z-index:1100;min-height:var(--nav)}.navbar::before{content:"";position:absolute;inset:0;background:rgba(247,244,252,.68);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(196,181,244,.16);box-shadow:0 12px 40px rgba(42,31,61,.06);pointer-events:none}.nav-inner{position:relative;z-index:1;min-height:var(--nav);padding:0 var(--px);display:flex;align-items:center;justify-content:space-between;gap:1rem}.nav-logo{font-family:"Cormorant Garamond",serif;font-size:clamp(1.7rem,2vw,2.1rem);font-style:italic;font-weight:600}.nav-cluster,.nav-links,.hero-actions,.filter-bar,.contact-links,.footer-meta{display:flex;align-items:center}.nav-cluster{gap:1rem}.nav-links{list-style:none;gap:1.25rem}.nav-links a{font-size:.92rem;font-weight:500;opacity:.88;position:relative}.nav-links a::after,.read-more::after{content:"";position:absolute;left:0;bottom:-.28rem;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s;opacity:.55}.nav-links a:hover::after,.nav-links a:focus-visible::after,.read-more:hover::after,.read-more:focus-visible::after{transform:scaleX(1)}
+    .filter-btn,.contact-link,.portfolio-link{border:1px solid rgba(196,181,244,.28);background:rgba(255,255,255,.56);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.pill{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.85rem 1.5rem;border-radius:999px;font-weight:600;transition:transform .3s,box-shadow .3s}.pill.primary{background:var(--grad);color:#fff;box-shadow:0 16px 30px rgba(180,153,232,.28)}.pill.secondary{border:1px solid rgba(196,181,244,.28);background:rgba(255,255,255,.04);color:var(--text-hero);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.pill:hover,.pill:focus-visible,.filter-btn:hover,.filter-btn:focus-visible,.contact-link:hover,.contact-link:focus-visible,.portfolio-link:hover,.portfolio-link:focus-visible{transform:translateY(-2px)}
+    .hero{position:relative;min-height:calc(100svh - var(--nav));padding:2rem var(--px) 4rem;background:radial-gradient(circle at 22% 20%,rgba(196,181,244,.18),transparent 30%),radial-gradient(circle at 74% 32%,rgba(244,198,212,.12),transparent 28%),radial-gradient(circle at 48% 62%,rgba(226,217,247,.08),transparent 30%),linear-gradient(180deg,#0d0a14,#151022);color:var(--text-hero);overflow:hidden}.hero-nebula,.hero-nebula::before,.hero-nebula::after{position:absolute;border-radius:50%;filter:blur(24px);animation:nebula 10s ease-in-out infinite;pointer-events:none}.hero-nebula{inset:16% auto auto 10%;width:min(36vw,420px);height:min(36vw,420px);background:radial-gradient(circle,rgba(196,181,244,.22),transparent 66%)}.hero-nebula::before,.hero-nebula::after{content:""}.hero-nebula::before{width:min(24vw,260px);height:min(24vw,260px);top:30%;right:-45%;background:radial-gradient(circle,rgba(244,198,212,.18),transparent 68%);animation-duration:12s}.hero-nebula::after{width:min(22vw,240px);height:min(22vw,240px);bottom:-30%;left:20%;background:radial-gradient(circle,rgba(226,217,247,.14),transparent 68%);animation-duration:8s}@keyframes nebula{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+    .hero-grid{position:relative;z-index:1;min-height:calc(100svh - var(--nav) - 6rem);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:clamp(2.5rem,5vw,5rem);align-items:center}.hero-copy{max-width:620px}.hero-kicker{display:inline-block;margin-bottom:1rem}.hero-title{font-size:clamp(4.5rem,8vw,8.2rem);line-height:.92;margin-bottom:1.25rem}.hero-title .thin{display:block;font-weight:300}.hero-title .ital{display:block;font-style:italic;font-weight:600;margin-left:clamp(1.2rem,4vw,3rem)}.hero-sub{max-width:440px;color:rgba(240,235,255,.78);margin-bottom:2rem}.hero-actions{flex-wrap:wrap;gap:.9rem}.hero-visual{position:relative;min-height:460px;display:grid;place-items:center}.constellation{position:relative;width:min(100%,470px);aspect-ratio:1;display:grid;place-items:center}.halo{position:absolute;inset:15%;border-radius:50%;background:radial-gradient(circle,rgba(196,181,244,.25),rgba(196,181,244,.08) 45%,transparent 70%);animation:halo 7s ease-in-out infinite}.orbit{position:absolute;inset:10%;border-radius:50%;border:1px dashed rgba(226,217,247,.35);animation:spin 40s linear infinite}.core{position:relative;width:min(58%,250px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(196,181,244,.16);background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.16),transparent 20%),radial-gradient(circle at 50% 50%,rgba(196,181,244,.22),transparent 60%),rgba(255,255,255,.03);backdrop-filter:blur(18px)}.glyph{position:absolute;font-size:clamp(1.3rem,2vw,1.8rem);animation-timing-function:ease-in-out;animation-iteration-count:infinite}.g1{top:12%;left:22%;animation:float1 5.2s infinite}.g2{top:20%;right:18%;animation:float2 6s infinite}.g3{top:45%;left:8%;animation:float3 4.8s infinite}.g4{top:54%;right:14%;animation:float1 6.4s infinite}.g5{bottom:16%;left:20%;animation:float2 5.6s infinite}.g6{bottom:14%;right:24%;animation:float3 7s infinite}.dots span{position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(226,217,247,.9);box-shadow:0 0 14px rgba(226,217,247,.6);animation:twinkle 4.5s ease-in-out infinite}.dots span:nth-child(1){top:10%;left:48%}.dots span:nth-child(2){top:18%;left:74%;animation-delay:.8s}.dots span:nth-child(3){top:32%;left:86%;animation-delay:1.2s}.dots span:nth-child(4){top:74%;left:82%;animation-delay:1.8s}.dots span:nth-child(5){top:86%;left:54%;animation-delay:.5s}.dots span:nth-child(6){top:70%;left:18%;animation-delay:1.5s}.dots span:nth-child(7){top:32%;left:8%;animation-delay:.2s}.dots span:nth-child(8){top:16%;left:22%;animation-delay:1s}@keyframes halo{0%,100%{transform:scale(.98);opacity:.75}50%{transform:scale(1.04);opacity:1}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes twinkle{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}@keyframes float1{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(7px,-12px,0)}}@keyframes float2{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-8px,-10px,0)}}@keyframes float3{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(5px,-14px,0)}}
+    .scroll-indicator{position:absolute;left:50%;bottom:1.4rem;transform:translateX(-50%);display:grid;gap:.45rem;justify-items:center;color:rgba(240,235,255,.78)}.scroll-indicator .line{width:1px;height:54px;background:rgba(240,235,255,.14);position:relative;overflow:hidden}.scroll-indicator .line::after{content:"";position:absolute;left:50%;width:7px;height:7px;border-radius:50%;background:var(--lavender);transform:translateX(-50%);animation:drop 1.8s ease-in-out infinite}.scroll-indicator .text{font-family:"Dancing Script",cursive}@keyframes drop{0%{top:0;opacity:0}25%{opacity:1}100%{top:calc(100% - 7px);opacity:0}}
+    .doodle-divider{padding:1rem var(--px);color:rgba(196,181,244,.6)}.doodle-divider svg{width:100%;height:48px}.about-grid,.contact-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:clamp(2.4rem,5vw,5rem);align-items:center}.about-copy{display:grid;gap:1rem}.about-title{font-size:clamp(3rem,5vw,5rem);line-height:.92}.about-title em{display:block;font-style:italic;font-weight:600;color:#7d65bf}.skill-list{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.5rem}.skill-tag{padding:.55rem .95rem;border-radius:999px;background:rgba(226,217,247,.8);color:#7d65bf;border:1px solid rgba(196,181,244,.24);transition:transform .3s,background .3s,color .3s}.skill-tag:hover{transform:translateY(-2px);background:#b89ff1;color:#fff}.notebook-card{position:relative;padding:clamp(1.4rem,2.6vw,2.1rem);border-radius:4px 16px 4px 16px;min-height:430px;display:grid;align-items:center;border:1px solid rgba(196,181,244,.16);box-shadow:8px 12px 40px rgba(196,181,244,.25);background:linear-gradient(90deg,rgba(244,198,212,.6) 0 3px,transparent 3px 100%),linear-gradient(180deg,rgba(253,248,242,.96),rgba(255,255,255,.92));cursor:pointer;perspective:1800px;transition:transform .35s,box-shadow .35s}.notebook-card:hover{transform:translateY(-4px) rotate(.3deg);box-shadow:14px 20px 54px rgba(196,181,244,.28)}.notebook-card:focus-visible{outline:2px solid rgba(184,159,241,.8);outline-offset:4px}.notebook-stack{position:relative;width:min(100%,530px);min-height:380px}.notebook-page{position:absolute;inset:0;padding:2.25rem 2.4rem 2rem 2.8rem;border-radius:4px 16px 4px 16px;border:1px solid rgba(196,181,244,.12);background:linear-gradient(90deg,rgba(244,198,212,.26) 0 3px,transparent 3px 100%),repeating-linear-gradient(180deg,rgba(196,181,244,.08) 0 1px,transparent 1px 30px),linear-gradient(180deg,rgba(255,255,255,.98),rgba(253,248,242,.94));transform-origin:left center;transform-style:preserve-3d;backface-visibility:hidden;box-shadow:0 12px 24px rgba(122,95,187,.08);will-change:transform;transition:transform .85s var(--ease),box-shadow .35s,opacity .35s}.notebook-page::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(13,10,20,.06),transparent 16%,transparent 84%,rgba(13,10,20,.04));opacity:.18;pointer-events:none}.notebook-page.p1{z-index:3}.notebook-page.p2{z-index:2;transform:translateX(10px) translateY(8px) rotate(1deg);opacity:.96}.notebook-page.p3{z-index:1;transform:translateX(18px) translateY(16px) rotate(2deg);opacity:.92}.notebook-card[data-page="1"] .notebook-page.p1{transform:rotateY(-154deg) translateX(-10px);box-shadow:none}.notebook-card[data-page="1"] .notebook-page.p2{transform:translateX(4px) translateY(2px) rotate(.4deg)}.notebook-card[data-page="2"] .notebook-page.p1{transform:rotateY(-154deg) translateX(-10px);box-shadow:none}.notebook-card[data-page="2"] .notebook-page.p2{transform:rotateY(-150deg) translateX(-14px);box-shadow:none}.notebook-card[data-page="2"] .notebook-page.p3{transform:translateX(0) translateY(0) rotate(0)}.notebook-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}.page-index{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}.flip-hint{font-size:.76rem;color:#8a71ce}.notebook-ink{display:grid;gap:1.3rem;text-align:left}.ink-mark{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}.ink-note{font-family:"Dancing Script",cursive;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.35;color:#8a71ce}.ink-copy{font-size:.95rem;color:var(--text-body);max-width:28ch}.doodle-cluster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem;align-items:center}.doodle-mini{display:flex;align-items:center;justify-content:center;min-height:74px;border-radius:14px;border:1px dashed rgba(196,181,244,.25);background:rgba(255,255,255,.46)}.doodle-mini svg{width:52px;height:52px;color:#9b84db}.doodle-line{width:92px;height:12px;border-bottom:2px dashed rgba(155,132,219,.5);transform:rotate(-4deg)}.doodle-flower{position:relative;width:54px;height:54px}.doodle-flower span{position:absolute;inset:50% auto auto 50%;width:20px;height:20px;border-radius:50%;background:rgba(244,198,212,.78);transform-origin:center}.doodle-flower span:nth-child(1){transform:translate(-50%,-140%)}.doodle-flower span:nth-child(2){transform:translate(40%,-50%)}.doodle-flower span:nth-child(3){transform:translate(-50%,40%)}.doodle-flower span:nth-child(4){transform:translate(-140%,-50%)}.doodle-flower::after{content:"";position:absolute;inset:50% auto auto 50%;width:16px;height:16px;border-radius:50%;background:#f2c86f;transform:translate(-50%,-50%)}.page-quote{font-size:.95rem;color:var(--text-muted);font-style:italic}
+    @media (max-width:980px){.nav-inner{min-height:auto;padding:.9rem var(--px);flex-direction:column;justify-content:center}.nav-cluster{width:100%;justify-content:center}.nav-links{flex-wrap:wrap;justify-content:center}.hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}.hero-copy{text-align:center;margin:0 auto}.hero-sub{margin-inline:auto}.hero-actions{justify-content:center}.hero-visual{min-height:360px}.contact-aside{order:-1}}
+    @media (max-width:768px){.cursor-glow{display:none}.hero{padding-top:1.5rem}.hero-title{font-size:clamp(3.6rem,13vw,5.2rem)}.hero-title .ital{margin-left:0}.scroll-indicator{bottom:.8rem}}
+    @media (max-width:480px){.nav-inner{padding-inline:1rem}.hero-actions,.contact-links{flex-direction:column;align-items:stretch}.pill,.contact-link{width:100%}.scroll-indicator{display:none}}
   </style>
 </head>
-
 <body>
-
-  <div class="cursor-glow" id="cursorGlow"></div>
-  <div id="progress"></div>
-
-  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav class="navbar" id="navbar">
-    <a href="#" class="nav-logo">Riri Blogs</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#blogs">Blogs</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#reviews">Reviews</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#contact" class="nav-sub">Subscribe</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-    </div>
-  </nav>
-
-  <!-- ═══════════════════ HERO ═══════════════════ -->
-  <section class="hero" id="hero">
-    <div class="hero-bg-grid"></div>
-    <div class="hero-content reveal">
-      <h1>Writing is a <span class="gradient-text">conversation</span>, not just content.</h1>
-      <p>I write professional insights, persuasive reflections, and thoughtful reviews — blending creativity with
-        clarity.</p>
-      <div class="hero-btns">
-        <a href="#blogs" class="btn-primary">View Blogs ↓</a>
-        <a href="#portfolio" class="btn-outline">Explore Portfolio</a>
-      </div>
-    </div>
-    <div class="hero-art">
-      <div class="gradient-blob"></div>
-      <div class="blob-ring"></div>
-      <span class="floating-icon">💬</span>
-      <span class="floating-icon">❤️</span>
-      <span class="floating-icon">💡</span>
-      <span class="floating-icon">✍️</span>
-      <span class="floating-icon">📖</span>
-      <span class="floating-icon">🌟</span>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ ABOUT ═══════════════════ -->
-  <section class="section section-alt" id="about">
-    <h2 class="section-title reveal"><span class="gradient-text">About</span> Me</h2>
-    <p class="section-sub reveal">A content writer who believes every word should create impact.</p>
-    <div class="about-grid">
-      <div class="about-text">
-        <h3 class="reveal">Professional Summary</h3>
-        <p class="reveal">Hi, I'm <strong>Riya S Vinod</strong> — a content writer specializing in professional
-          insights, personal reflections, and creative storytelling. My work spans across industry blogs, persuasive
-          essays, and in-depth series reviews — always with the reader at the center.</p>
-        <h3 class="reveal">Writing Philosophy</h3>
-        <p class="reveal">I believe blogging is connection, not code. Every piece I write aims to start a conversation,
-          challenge a perspective, or tell a story that stays with you. Clarity meets creativity in every paragraph.</p>
-        <h3 class="reveal">Let's Collaborate</h3>
-        <p class="reveal">Whether you need a blog series, content strategy, or a fresh voice for your brand — I'm ready
-          to bring your words to life.</p>
-        <div class="skills reveal">
-          <span class="skill-tag">Blog Writing</span>
-          <span class="skill-tag">Content Strategy</span>
-          <span class="skill-tag">SEO Writing</span>
-          <span class="skill-tag">Copywriting</span>
-          <span class="skill-tag">Storytelling</span>
-          <span class="skill-tag">Series Reviews</span>
-          <span class="skill-tag">Persuasive Writing</span>
-          <span class="skill-tag">Brand Voice</span>
+  <div id="petalLayer" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="progress-shell" aria-hidden="true"><div id="progress"></div></div>
+  <header class="site-shell">
+    <nav class="navbar" id="navbar" aria-label="Main navigation">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo" aria-label="Riri Blogs home">Riri Blogs</a>
+        <div class="nav-cluster">
+          <ul class="nav-links"><li><a href="#about">About</a></li><li><a href="#blogs">Blogs</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#contact">Contact</a></li></ul>
         </div>
       </div>
-      <div class="about-visual reveal">
-        <div class="about-shape">✨</div>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-nebula" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-copy reveal"><span class="hero-kicker">she writes in soft colours</span><h1 class="hero-title"><span class="thin">A wild frame,</span><span class="ital">born from nothing.</span></h1><p class="hero-sub">Riya S Vinod — writer of professional insights, personal reflections, and reviews that stay with you.</p><div class="hero-actions"><a href="#about" class="pill primary" aria-label="Step inside and explore">Step Inside -></a><a href="#blogs" class="pill secondary" aria-label="Read Riya's work">Read My Work</a></div></div>
+        <div class="hero-visual reveal"><div class="constellation" aria-hidden="true"><div class="halo"></div><div class="orbit"></div><div class="core"></div><span class="glyph g1">&#9997;</span><span class="glyph g2">&#128214;</span><span class="glyph g3">&#10047;</span><span class="glyph g4">&#10024;</span><span class="glyph g5">&#9993;</span><span class="glyph g6">&#10086;</span><div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
       </div>
-    </div>
-  </section>
+      <div class="scroll-indicator" aria-hidden="true"><div class="line"></div><div class="text">scroll to explore</div></div>
+    </section>
+    <div class="doodle-divider" aria-hidden="true"><svg viewBox="0 0 1200 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24C108 8 138 40 248 24C356 8 388 40 498 24C606 8 638 40 748 24C856 8 888 40 998 24C1078 12 1138 12 1200 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M548 24L560 14L572 24L560 34L548 24Z" stroke="currentColor" stroke-width="2"/><path d="M612 24H640" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <section class="section" id="about">
+      <div class="section-panel about-grid">
+        <div class="about-copy reveal"><span class="label">the person behind the prose</span><h2 class="about-title">Hi, I'm Riya.<em>I write to connect.</em></h2><p>I build writing that feels personal without losing precision. From professional pieces to intimate reflections and careful reviews, every paragraph is shaped to land softly and stay with the reader.</p><p>For me, a good blog is not a content machine. It is a conversation with warmth, rhythm, and intention. I care about clarity, voice, and storytelling that makes people pause before they keep scrolling.</p><p>If you need a writer who can move between strategy and soul, this is where our collaboration starts.</p><div class="skill-list"><span class="skill-tag">Blog Writing</span><span class="skill-tag">Content Strategy</span><span class="skill-tag">SEO Writing</span><span class="skill-tag">Copywriting</span><span class="skill-tag">Storytelling</span><span class="skill-tag">Series Reviews</span><span class="skill-tag">Persuasive Writing</span><span class="skill-tag">Brand Voice</span></div></div>
+        <div
+          class="notebook-card reveal"
+          id="notebookCard"
+          data-page="0"
+          role="button"
+          tabindex="0"
+          aria-label="Interactive notebook. Click to flip pages."
+        >
+          <div class="notebook-stack">
+            <section class="notebook-page p3" aria-hidden="true">
+              <div class="notebook-head">
+                <span class="page-index">Page 3</span>
+                <span class="flip-hint">one more turn</span>
+              </div>
+              <div class="notebook-ink">
+                <div class="doodle-cluster">
+                  <div class="doodle-mini">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16 48C21 34 31 18 47 14C41 25 34 38 20 50L16 48Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M39 19L46 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <div class="doodle-mini"><div class="doodle-line" aria-hidden="true"></div></div>
+                </div>
+                <p class="ink-note">tiny margin notes, arrows, and unfinished thoughts</p>
+                <p class="page-quote">The best pages look a little lived in.</p>
+              </div>
+            </section>
 
-  <!-- ═══════════════════ BLOGS ═══════════════════ -->
-  <section class="section" id="blogs">
-    <h2 class="section-title reveal">Featured <span class="gradient-text">Blogs</span></h2>
-    <p class="section-sub reveal">Insights, reflections, and stories — explore by category.</p>
-    <div class="filter-bar reveal">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="professional">Professional</button>
-      <button class="filter-btn" data-filter="personal">Personal</button>
-      <button class="filter-btn" data-filter="review">Reviews</button>
-    </div>
-    <div class="blog-grid">
-      <!-- ADD NEW BLOG CARDS BELOW THIS LINE -->
-      <div class="blog-card reveal" data-category="professional" data-post-id="post-art-of-blogging" data-title="The Art of Professional Blogging"
-        data-body="Professional blogging isn't about filling pages — it's about filling gaps. When done right, a blog becomes a bridge between expertise and curiosity, connecting brands with audiences who genuinely care.\n\nThe best professional blogs don't just inform; they invite. They turn complex ideas into accessible insights, making readers feel empowered rather than overwhelmed. This is where strategy meets storytelling.\n\nEvery blog post should answer one key question: Why should the reader care? If you can nail that, you've already won half the battle. The rest is craft — structure, tone, rhythm, and a conclusion that leaves them wanting more.">
-        <span class="blog-tag tag-professional">Professional</span>
-        <h3>The Art of Professional Blogging</h3>
-        <p class="excerpt">Professional blogging isn't about filling pages — it's about filling gaps. When done right, a
-          blog becomes a bridge between expertise and curiosity.</p>
-        <div class="star-rating-widget" data-post-id="post-art-of-blogging">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
+            <section class="notebook-page p2" aria-hidden="true">
+              <div class="notebook-head">
+                <span class="page-index">Page 2</span>
+                <span class="flip-hint">flip again</span>
+              </div>
+              <div class="notebook-ink">
+                <div class="doodle-cluster">
+                  <div class="doodle-mini">
+                    <div class="doodle-flower" aria-hidden="true">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <div class="doodle-mini">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 44C24 24 40 22 52 28C42 34 30 42 16 48L12 44Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M23 34C27 34 32 36 35 40" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                </div>
+                <p class="ink-note">doodles belong where the page starts feeling too serious</p>
+                
+              </div>
+            </section>
+
+            <section class="notebook-page p1">
+              <div class="notebook-head">
+                <span class="page-index">Page 1</span>
+                <span class="flip-hint">click to flip</span>
+              </div>
+              <div class="notebook-ink">
+                <div class="doodle-cluster">
+                  <div class="doodle-mini">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M31 8L36 22L50 27L36 32L31 46L26 32L12 27L26 22L31 8Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                  <div class="doodle-mini">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 46C22 32 30 14 44 12C42 24 38 38 26 50L20 46Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                </div>
+                <p class="ink-note">a notebook full of wonder, drafts, and good questions</p>
+               
+              </div>
+            </section>
           </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Feb 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-      <div class="blog-card reveal reveal-delay-1" data-category="personal" data-post-id="post-why-i-write"
-        data-title="Why I Write When No One's Reading"
-        data-body="There's a version of writing that exists only for the writer. It's messy, raw, and deeply personal. No SEO keywords, no target audience — just thoughts finding their shape on a blank page.\n\nI started writing long before anyone read a word I published. Those early pieces weren't polished. They were honest. And honestly, they taught me more about my voice than any writing course ever could.\n\nWriting when no one's reading is an act of faith. You're trusting that the words matter — not because of metrics, but because of meaning. That's where the magic begins.">
-        <span class="blog-tag tag-personal">Personal</span>
-        <h3>Why I Write When No One's Reading</h3>
-        <p class="excerpt">There's a version of writing that exists only for the writer. It's messy, raw, and deeply
-          personal. No SEO keywords, no target audience — just thoughts finding shape.</p>
-        <div class="star-rating-widget" data-post-id="post-why-i-write">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
-          </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Feb 22, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-      <div class="blog-card reveal reveal-delay-2" data-category="review" data-post-id="post-severance-review"
-        data-title="Severance — A Review of Identity Split"
-        data-body="Severance doesn't just tell a story — it asks a question that lingers long after the credits roll: What if you could split your work self from your personal self?\n\nThe show builds tension not through action, but through the unsettling quiet of corporate routine. Every hallway feels like a mystery. Every smile from a colleague feels rehearsed. It's dystopia dressed in office casual.\n\nWhat makes Severance brilliant is its restraint. It trusts the viewer to sit with discomfort, to piece together the puzzle without spoon-feeding answers. A masterclass in slow-burn storytelling.">
-        <span class="blog-tag tag-review">Review</span>
-        <h3>Severance — A Review of Identity Split</h3>
-        <p class="excerpt">Severance doesn't just tell a story — it asks a question that lingers long after the credits
-          roll. Dystopia dressed in office casual.</p>
-        <div class="star-rating-widget" data-post-id="post-severance-review">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
-          </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Feb 15, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-      <div class="blog-card reveal" data-category="professional" data-post-id="post-content-strategy" data-title="Content Strategy Isn't Optional Anymore"
-        data-body="In an era where content is currency, strategy is the vault. Without a clear plan, even the most brilliant writing gets lost in the noise.\n\nContent strategy starts with understanding your audience — not demographics, but desires. What keeps them scrolling? What makes them stop? Answer those questions, and you have the foundation for content that converts.\n\nA good strategy doesn't limit creativity; it channels it. Think of it as the riverbank that gives direction to flowing water. Without banks, you just have a flood.">
-        <span class="blog-tag tag-professional">Professional</span>
-        <h3>Content Strategy Isn't Optional Anymore</h3>
-        <p class="excerpt">In an era where content is currency, strategy is the vault. Without a clear plan, even the
-          most brilliant writing gets lost in the noise.</p>
-        <div class="star-rating-widget" data-post-id="post-content-strategy">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
-          </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Feb 10, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-      <div class="blog-card reveal reveal-delay-1" data-category="personal" data-post-id="post-courage-beginner"
-        data-title="The Courage to Be a Beginner Again"
-        data-body="We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting over in any craft — writing, painting, coding — is humbling in a way that growth demands.\n\nI've rewritten my voice multiple times. Each time felt like losing something familiar. But what I gained was always richer: a deeper understanding of why I write, who I write for, and what I want my words to do.\n\nBeing a beginner isn't a step backward. It's the bravest step forward you can take.">
-        <span class="blog-tag tag-personal">Personal</span>
-        <h3>The Courage to Be a Beginner Again</h3>
-        <p class="excerpt">We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting
-          over in any craft is humbling in a way that growth demands.</p>
-        <div class="star-rating-widget" data-post-id="post-courage-beginner">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
-          </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Feb 5, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-      <div class="blog-card reveal reveal-delay-2" data-category="review" data-post-id="post-the-bear-review"
-        data-title="The Bear — Chaos, Craft, and Kitchen Heat"
-        data-body="The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's one of the most compelling things on television.\n\nAt its core, The Bear is about transformation — not just of a sandwich shop, but of people carrying grief, ambition, and the weight of family legacy. Every shout across the kitchen is a confession in disguise.\n\nThe cinematography is relentless. The pacing is breathless. And yet, in its quietest moments — a shared cigarette, a whispered 'yes, chef' — The Bear finds its soul.">
-        <span class="blog-tag tag-review">Review</span>
-        <h3>The Bear — Chaos, Craft, and Kitchen Heat</h3>
-        <p class="excerpt">The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's
-          one of the most compelling things on television.</p>
-        <div class="star-rating-widget" data-post-id="post-the-bear-review">
-          <div class="star-row">
-            <button class="star-btn" data-value="1">★</button>
-            <button class="star-btn" data-value="2">★</button>
-            <button class="star-btn" data-value="3">★</button>
-            <button class="star-btn" data-value="4">★</button>
-            <button class="star-btn" data-value="5">★</button>
-          </div>
-          <div class="rating-info"><span class="star-skeleton">Loading ratings…</span></div>
-        </div>
-        <div class="meta"><span class="date">Jan 28, 2026</span><button class="read-more" onclick="openModal(this)">Read
-            More</button></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Blog Modal -->
-  <div class="modal-overlay" id="blogModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <span class="blog-tag" id="modalTag"></span>
-      <h2 id="modalTitle"></h2>
-      <span class="date" id="modalDate"></span>
-      <div class="body" id="modalBody"></div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════ PORTFOLIO ═══════════════════ -->
-  <section class="section section-alt" id="portfolio">
-    <h2 class="section-title reveal">Portfolio <span class="gradient-text">Highlights</span></h2>
-    <p class="section-sub reveal">Selected works that showcase clarity, creativity, and impact.</p>
-    <div class="portfolio-grid">
-      <div class="portfolio-card reveal">
-        <h4>The Art of Professional Blogging</h4>
-        <p class="impact">"Bridging expertise with genuine reader curiosity."</p>
-        <span class="cat-label">Professional</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-      <div class="portfolio-card reveal reveal-delay-1">
-        <h4>Why I Write When No One's Reading</h4>
-        <p class="impact">"An honest look at writing for meaning over metrics."</p>
-        <span class="cat-label">Personal</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-      <div class="portfolio-card reveal reveal-delay-2">
-        <h4>Severance — Identity Split Review</h4>
-        <p class="impact">"Exploring dystopia through the lens of corporate routine."</p>
-        <span class="cat-label">Review</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-      <div class="portfolio-card reveal reveal-delay-3">
-        <h4>Content Strategy Guide</h4>
-        <p class="impact">"Turning content chaos into clear, converting strategy."</p>
-        <span class="cat-label">Professional</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-      <div class="portfolio-card reveal reveal-delay-4">
-        <h4>The Bear — Series Review</h4>
-        <p class="impact">"A visceral dive into grief, ambition, and kitchen culture."</p>
-        <span class="cat-label">Review</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-      <div class="portfolio-card reveal reveal-delay-5">
-        <h4>The Courage to Begin Again</h4>
-        <p class="impact">"Why starting over is the bravest step forward."</p>
-        <span class="cat-label">Personal</span>
-        <a href="#blogs" class="btn-sm">View Blog</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ REVIEWS ═══════════════════ -->
-  <section class="section reviews-section" id="reviews">
-    <h2 class="section-title reveal">Series <span class="gradient-text">Reviews</span></h2>
-    <p class="section-sub reveal">In-depth, creative takes on the shows worth talking about.</p>
-    <div class="review-grid">
-      <div class="review-card reveal">
-        <h3>Severance</h3>
-        <p class="genre">Sci-Fi · Thriller · Drama</p>
-        <div class="stars">★★★★★</div>
-        <p class="snippet">"Dystopia dressed in office casual. Severance doesn't just tell a story — it rewrites what
-          identity means."</p>
-        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
-      </div>
-      <div class="review-card reveal reveal-delay-1">
-        <h3>The Bear</h3>
-        <p class="genre">Drama · Comedy</p>
-        <div class="stars">★★★★★</div>
-        <p class="snippet">"An anxiety attack wrapped in an apron. Raw, relentless, and achingly human."</p>
-        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
-      </div>
-      <div class="review-card reveal reveal-delay-2">
-        <h3>Fleabag</h3>
-        <p class="genre">Comedy · Drama</p>
-        <div class="stars">★★★★★</div>
-        <p class="snippet">"Breaking the fourth wall — and your heart. Phoebe Waller-Bridge turns chaos into poetry."
-        </p>
-        <a href="#blogs" class="btn-primary" style="font-size:.82rem;padding:.55rem 1.4rem">Read Review</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ CONTACT ═══════════════════ -->
-  <section class="section" id="contact">
-    <h2 class="section-title reveal">Get in <span class="gradient-text">Touch</span></h2>
-    <p class="section-sub reveal">Have a project in mind? Let's start a conversation.</p>
-    <div class="contact-grid">
-      <form class="contact-form reveal"
-        onsubmit="event.preventDefault();alert('Thank you! Your message has been noted.')">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <input type="text" placeholder="Subject" />
-        <textarea placeholder="Your Message..." required></textarea>
-        <button type="submit" class="btn-primary" style="width:fit-content">Send Message</button>
-      </form>
-      <div class="contact-info reveal">
-        <h3>Let's Connect</h3>
-        <p>Whether it's a collaboration, a guest blog, or just a friendly hello — I'd love to hear from you.</p>
-        <p>📧 <a href="/cdn-cgi/l/email-protection#04766d7d6577726d6a6b60353635446369656d682a676b69" class="email-link"><span class="__cf_email__" data-cfemail="15677c6c7466637c7b7a71242724557278747c793b767a78">[email&#160;protected]</span></a></p>
-        <div class="social-icons">
-          <a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" class="social-icon"
-            aria-label="LinkedIn"><svg viewBox="0 0 24 24">
-              <path
-                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg></a>
-          <a href="/cdn-cgi/l/email-protection#76041f0f1705001f18191247444736111b171f1a5815191b" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-            </svg></a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ FOOTER ═══════════════════ -->
-  <footer class="footer">
-    <div class="footer-grid">
-      <div>
-        <h4
-          style="font-family:'Playfair Display',serif;font-size:1.3rem;background:var(--accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
-          Riri Blogs</h4>
-        <p style="margin:.5rem 0">"Blogging is connection, not code."</p>
-        <p style="font-size:.82rem">by <strong>Riya S Vinod</strong></p>
-        <div class="newsletter-input" style="margin-top:1rem">
-          <input type="email" placeholder="Your email for updates" />
-          <button type="button">Subscribe</button>
+    </section>
+    <style>
+      .filter-bar{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:2.5rem}.filter-btn{position:relative;overflow:hidden;padding:.75rem 1.25rem;border-radius:999px;color:var(--text-body);font-weight:500;transition:transform .3s,background .3s,border-color .3s,color .3s}.filter-btn.active{color:#fff;background:linear-gradient(135deg,#b79ef1,#d7b9e9);border-color:transparent;box-shadow:0 14px 24px rgba(180,153,232,.26)}.filter-ripple{position:absolute;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.5);transform:translate(-50%,-50%) scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}@keyframes ripple{to{opacity:0;transform:translate(-50%,-50%) scale(10)}}
+      .blog-grid,.portfolio-grid,.reviews-grid,.footer-grid{display:grid;gap:clamp(1.4rem,2.4vw,2rem)}.blog-grid,.portfolio-grid,.reviews-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .paper-card{position:relative;display:flex;flex-direction:column;gap:1rem;padding:2rem;border-radius:3px 18px 3px 18px;border:1px solid rgba(196,181,244,.25);background:rgba(255,255,255,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:4px 8px 32px rgba(196,181,244,.15);transition:transform .35s,box-shadow .35s,border-color .35s,opacity .3s;overflow:hidden}.paper-card::before{content:"";position:absolute;inset:auto auto 1.3rem 1.3rem;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(226,217,247,.2),transparent 66%);transition:transform .35s;opacity:.8}.paper-card:hover{transform:translateY(-10px) rotate(.3deg);box-shadow:10px 24px 48px rgba(180,153,232,.22);border-color:rgba(196,181,244,.34)}.paper-card:hover::before{transform:scale(1.18)}[data-theme="dark"] .paper-card{background:rgba(36,28,55,.72)}
+      .ink-dot{position:absolute;top:1.1rem;left:1.2rem;width:8px;height:8px;border-radius:50%;transition:transform .35s;box-shadow:0 0 0 8px rgba(255,255,255,.12)}.paper-card:hover .ink-dot{transform:scale(1.4)}.ink-dot.professional{background:#b89ff1}.ink-dot.personal{background:#e6a7bc}.ink-dot.review{background:#d4c7f4}
+      .tag{width:fit-content;padding:.3rem .75rem;border-radius:999px;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}.tag.professional{background:rgba(196,181,244,.32);color:#7158ba}.tag.personal{background:rgba(244,198,212,.42);color:#a95f7e}.tag.review{background:rgba(226,217,247,.9);color:#7d65bf}
+      .paper-card h3,.review-card h3{font-size:clamp(1.6rem,2.3vw,2.2rem);line-height:1;font-weight:600}.blog-excerpt,.portfolio-copy,.review-snippet{color:var(--text-muted);font-size:.96rem}.card-meta{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:auto}.card-date{font-size:.82rem;color:var(--text-muted)}.read-more{position:relative;padding:0 0 .2rem;font-weight:600;color:#7d65bf}
+      .star-rating-widget{display:grid;gap:.45rem;margin-top:.15rem}.star-row{display:inline-flex;gap:.18rem;width:fit-content}.star-btn{width:30px;height:30px;display:grid;place-items:center;font-size:1.25rem;line-height:1;color:rgba(232,201,126,.35);transition:transform .18s,color .18s}.star-btn:hover,.star-btn.hovered,.star-btn.lit{color:var(--gold)}.star-btn.lit{transform:scale(1.08)}.star-btn.already-voted{cursor:default}.rating-info{min-height:1.25rem;font-size:.76rem;color:var(--text-muted)}.rating-info .avg{color:var(--gold);font-weight:600}.rating-info .voted-note{font-family:"Dancing Script",cursive;font-size:.95rem;color:#8a71ce;margin-left:.25rem}
+      .portfolio-wrap{background:rgba(255,255,255,.16);border-radius:30px;padding:clamp(1.6rem,3vw,2.3rem);border:1px solid rgba(196,181,244,.14)}.portfolio-card{background:radial-gradient(circle at 20% 20%,rgba(196,181,244,.08),transparent 28%),radial-gradient(circle at 80% 30%,rgba(244,198,212,.08),transparent 28%),rgba(255,255,255,.68)}[data-theme="dark"] .portfolio-card{background:radial-gradient(circle at 20% 20%,rgba(196,181,244,.08),transparent 28%),radial-gradient(circle at 80% 30%,rgba(244,198,212,.08),transparent 28%),rgba(36,28,55,.72)}.portfolio-label{font-family:"Dancing Script",cursive;font-size:1.2rem;color:#8a71ce}.portfolio-link{width:fit-content;margin-top:auto;padding:.75rem 1.1rem;border-radius:999px;color:#7d65bf;transition:transform .3s,background .3s}
+      .reviews-section{background:linear-gradient(180deg,rgba(247,244,252,0) 0%,rgba(13,10,20,.75) 12%,rgba(13,10,20,1) 20%,rgba(13,10,20,1) 80%,rgba(13,10,20,.75) 88%,rgba(247,244,252,0) 100%);color:var(--text-hero)}[data-theme="dark"] .reviews-section{background:linear-gradient(180deg,rgba(28,22,48,0) 0%,rgba(13,10,20,.75) 12%,rgba(13,10,20,1) 20%,rgba(13,10,20,1) 80%,rgba(13,10,20,.75) 88%,rgba(28,22,48,0) 100%)}.reviews-section .copy,.review-genre{color:rgba(240,235,255,.72)}.reviews-section .label,.reviews-section .title,.review-card h3{color:var(--text-hero)}.review-card{background:rgba(255,255,255,.05);border:1px solid rgba(196,181,244,.15);box-shadow:0 24px 50px rgba(0,0,0,.22)}.review-card::before{background:radial-gradient(circle,rgba(196,181,244,.16),transparent 66%);opacity:0}.review-card:hover::before{opacity:1}.review-stars{font-size:1.15rem;letter-spacing:.18em;color:var(--gold)}.review-snippet{font-style:italic;color:rgba(226,217,247,.88)}.review-link{width:fit-content;margin-top:auto;color:rgba(240,235,255,.9);font-weight:600}
+      .contact-card{padding:clamp(1.6rem,3vw,2.4rem);border-radius:24px;border:1px solid rgba(196,181,244,.2);box-shadow:var(--shadow);background:rgba(255,255,255,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}[data-theme="dark"] .contact-card{background:rgba(36,28,55,.66)}.contact-form{display:grid;gap:1rem}.contact-form label{display:grid;gap:.45rem;font-size:.9rem;font-weight:500}.contact-form input,.contact-form textarea{width:100%;padding:.9rem 1rem;border-radius:12px;border:1.5px solid rgba(196,181,244,.3);background:rgba(237,232,247,.5);color:var(--text-body);outline:none;transition:border-color .3s,box-shadow .3s,background .3s}.contact-form input:focus,.contact-form textarea:focus{border-color:rgba(180,153,232,.9);box-shadow:0 0 0 4px rgba(196,181,244,.16);background:rgba(255,255,255,.76)}.contact-form textarea{resize:vertical;min-height:170px}.contact-feedback{min-height:1.2rem;font-size:.88rem;color:#b25273}.contact-aside{display:grid;gap:1.4rem;align-content:center}.contact-quote{font-size:clamp(2.2rem,4vw,4rem);line-height:.96;font-style:italic}.contact-note{color:var(--text-muted);max-width:440px}.contact-links{flex-wrap:wrap;gap:.9rem}.contact-link{gap:.5rem;padding:.7rem 1rem;border-radius:999px;transition:transform .3s,background .3s}.envelope{width:78px;color:rgba(196,181,244,.72)}
+#contact{padding-bottom:clamp(3rem,6vw,4.25rem)}.footer{padding:0 var(--px) 1.25rem}.footer-shell{padding:2rem clamp(1.4rem,3vw,2.4rem);border-radius:28px;border:1px solid rgba(196,181,244,.18);box-shadow:var(--shadow);background:radial-gradient(circle at 15% 10%,rgba(226,217,247,.5),transparent 25%),linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.42));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:grid;gap:1.5rem}[data-theme="dark"] .footer-shell{background:radial-gradient(circle at 15% 10%,rgba(84,63,131,.28),transparent 25%),linear-gradient(180deg,rgba(36,28,55,.7),rgba(36,28,55,.5))}.footer-grid{grid-template-columns:1.2fr .8fr 1fr}.footer-brand h3{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,3vw,2.6rem);font-style:italic;margin-bottom:.5rem}.footer-brand p,.footer-col p,.footer-col a{color:var(--text-muted);font-size:.92rem}.footer-col h4{margin-bottom:.75rem;font-size:.92rem;text-transform:uppercase;letter-spacing:.08em;color:#8a71ce}.footer-links{display:grid;gap:.55rem;list-style:none}.footer-meta{justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid rgba(196,181,244,.16);color:var(--text-muted);font-size:.84rem}
+      .modal-overlay{position:fixed;inset:0;display:grid;place-items:center;padding:2rem;background:rgba(13,10,20,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;z-index:1300}.modal-overlay.active{opacity:1;visibility:visible}.modal-card{position:relative;width:min(100%,820px);max-height:min(84vh,840px);overflow:auto;padding:clamp(2rem,4vw,3rem);border-radius:3px 24px 3px 24px;border:1px solid rgba(196,181,244,.18);background:linear-gradient(90deg,rgba(244,198,212,.58) 0 4px,transparent 4px 100%),linear-gradient(180deg,rgba(253,248,242,.98),rgba(255,255,255,.95));box-shadow:0 30px 80px rgba(13,10,20,.26)}[data-theme="dark"] .modal-card{background:linear-gradient(90deg,rgba(244,198,212,.32) 0 4px,transparent 4px 100%),linear-gradient(180deg,rgba(36,28,55,.98),rgba(31,24,47,.98))}.modal-close{position:absolute;top:1rem;right:1rem;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(196,181,244,.12);transition:background .3s,color .3s,transform .3s}.modal-close:hover,.modal-close:focus-visible{background:rgba(196,181,244,.32);transform:rotate(90deg);color:#6b56a2}.modal-title{font-size:clamp(2.6rem,5vw,4.8rem);line-height:.92;font-style:italic;margin-bottom:.5rem;padding-right:2.5rem}.modal-date{display:inline-block;margin-bottom:1.25rem;color:var(--text-muted);font-size:.9rem}.modal-rating{margin-bottom:1.2rem}.modal-body{font-size:1rem;line-height:1.95}
+      .reveal{opacity:0;transition:opacity .9s var(--ease),transform .9s var(--ease)}.reveal.fade-up{transform:translateY(40px)}.reveal.fade-in{transform:none}.reveal.slide-left{transform:translateX(-30px)}.reveal.scale-in{transform:scale(.94)}.reveal.is-visible{opacity:1;transform:none}.contact-success{min-height:340px;display:grid;place-items:center;gap:1rem;text-align:center;padding:2rem}.contact-success .icon{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:2.2rem;color:#fff;background:var(--grad);box-shadow:0 18px 34px rgba(180,153,232,.3)}.contact-success p{font-family:"Cormorant Garamond",serif;font-size:clamp(1.7rem,3vw,2.4rem);font-style:italic}
+      @media (max-width:980px){.blog-grid,.portfolio-grid,.reviews-grid,.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:768px){.blog-grid,.portfolio-grid,.reviews-grid,.footer-grid{grid-template-columns:1fr}.paper-card,.contact-card,.modal-card{padding:1.5rem}.footer-meta{flex-direction:column;align-items:flex-start}}@media (max-width:480px){.modal-overlay{padding:1rem}}
+    </style>
+    <div class="doodle-divider" aria-hidden="true"><svg viewBox="0 0 1200 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24C92 10 142 38 228 24C334 6 406 40 508 24C614 8 668 40 764 24C876 6 946 40 1034 24C1108 12 1158 14 1200 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M574 16C580 12 590 12 596 16V32C590 36 580 36 574 32V16Z" stroke="currentColor" stroke-width="2"/><path d="M596 16C602 12 612 12 618 16V32C612 36 602 36 596 32V16Z" stroke="currentColor" stroke-width="2"/></svg></div>
+    <section class="section" id="blogs">
+      <div class="section-panel">
+        <div class="section-head"><span class="label reveal">fresh from the notebook</span><h2 class="title reveal">Featured <span class="grad">Blogs</span></h2><p class="copy reveal">A quiet mix of strategy, reflection, and culture writing, arranged like pages you want to keep.</p></div>
+        <div class="filter-bar reveal" role="toolbar" aria-label="Blog filters"><button class="filter-btn active" type="button" data-filter="all">All</button><button class="filter-btn" type="button" data-filter="professional">Professional</button><button class="filter-btn" type="button" data-filter="personal">Personal</button><button class="filter-btn" type="button" data-filter="review">Reviews</button></div>
+        <div class="blog-grid">
+          <article class="paper-card blog-card reveal" data-category="professional" data-post-id="post-art-of-blogging" data-title="The Art of Professional Blogging" data-body="Professional blogging isn't about filling pages — it's about filling gaps. When done right, a blog becomes a bridge between expertise and curiosity, connecting brands with audiences who genuinely care.\n\nThe best professional blogs don't just inform; they invite. They turn complex ideas into accessible insights, making readers feel empowered rather than overwhelmed. This is where strategy meets storytelling.\n\nEvery blog post should answer one key question: Why should the reader care? If you can nail that, you've already won half the battle. The rest is craft — structure, tone, rhythm, and a conclusion that leaves them wanting more."><span class="ink-dot professional" aria-hidden="true"></span><span class="tag professional">Professional</span><h3>The Art of Professional Blogging</h3><p class="blog-excerpt">Professional blogging is not about filling space. It is about making expertise feel clear, useful, and human.</p><div class="star-rating-widget" data-post-id="post-art-of-blogging"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Feb 28, 2026</span><button class="read-more" type="button">Read More</button></div></article>
+          <article class="paper-card blog-card reveal" data-category="personal" data-post-id="post-why-i-write" data-title="Why I Write When No One's Reading" data-body="There's a version of writing that exists only for the writer. It's messy, raw, and deeply personal. No SEO keywords, no target audience — just thoughts finding their shape on a blank page.\n\nI started writing long before anyone read a word I published. Those early pieces weren't polished. They were honest. And honestly, they taught me more about my voice than any writing course ever could.\n\nWriting when no one's reading is an act of faith. You're trusting that the words matter — not because of metrics, but because of meaning. That's where the magic begins."><span class="ink-dot personal" aria-hidden="true"></span><span class="tag personal">Personal</span><h3>Why I Write When No One's Reading</h3><p class="blog-excerpt">The early drafts no one sees still matter. That is where voice forms before the audience arrives.</p><div class="star-rating-widget" data-post-id="post-why-i-write"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Feb 22, 2026</span><button class="read-more" type="button">Read More</button></div></article>
+          <article class="paper-card blog-card reveal" data-category="review" data-post-id="post-severance-review" data-title="Severance — A Review of Identity Split" data-body="Severance doesn't just tell a story — it asks a question that lingers long after the credits roll: What if you could split your work self from your personal self?\n\nThe show builds tension not through action, but through the unsettling quiet of corporate routine. Every hallway feels like a mystery. Every smile from a colleague feels rehearsed. It's dystopia dressed in office casual.\n\nWhat makes Severance brilliant is its restraint. It trusts the viewer to sit with discomfort, to piece together the puzzle without spoon-feeding answers. A masterclass in slow-burn storytelling."><span class="ink-dot review" aria-hidden="true"></span><span class="tag review">Review</span><h3>Severance — A Review of Identity Split</h3><p class="blog-excerpt">A slow-burn corporate dreamscape where every corridor becomes part of the tension.</p><div class="star-rating-widget" data-post-id="post-severance-review"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Feb 15, 2026</span><button class="read-more" type="button">Read More</button></div></article>
+          <article class="paper-card blog-card reveal" data-category="professional" data-post-id="post-content-strategy" data-title="Content Strategy Isn't Optional Anymore" data-body="In an era where content is currency, strategy is the vault. Without a clear plan, even the most brilliant writing gets lost in the noise.\n\nContent strategy starts with understanding your audience — not demographics, but desires. What keeps them scrolling? What makes them stop? Answer those questions, and you have the foundation for content that converts.\n\nA good strategy doesn't limit creativity; it channels it. Think of it as the riverbank that gives direction to flowing water. Without banks, you just have a flood."><span class="ink-dot professional" aria-hidden="true"></span><span class="tag professional">Professional</span><h3>Content Strategy Isn't Optional Anymore</h3><p class="blog-excerpt">Strong ideas need structure. Strategy is what keeps creative work from disappearing into the noise.</p><div class="star-rating-widget" data-post-id="post-content-strategy"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Feb 10, 2026</span><button class="read-more" type="button">Read More</button></div></article>
+          <article class="paper-card blog-card reveal" data-category="personal" data-post-id="post-courage-beginner" data-title="The Courage to Be a Beginner Again" data-body="We celebrate expertise but rarely talk about the courage it takes to be a beginner. Starting over in any craft — writing, painting, coding — is humbling in a way that growth demands.\n\nI've rewritten my voice multiple times. Each time felt like losing something familiar. But what I gained was always richer: a deeper understanding of why I write, who I write for, and what I want my words to do.\n\nBeing a beginner isn't a step backward. It's the bravest step forward you can take."><span class="ink-dot personal" aria-hidden="true"></span><span class="tag personal">Personal</span><h3>The Courage to Be a Beginner Again</h3><p class="blog-excerpt">Starting over can feel small and brave at the same time. That is often where the real growth begins.</p><div class="star-rating-widget" data-post-id="post-courage-beginner"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Feb 5, 2026</span><button class="read-more" type="button">Read More</button></div></article>
+          <article class="paper-card blog-card reveal" data-category="review" data-post-id="post-the-bear-review" data-title="The Bear — Chaos, Craft, and Kitchen Heat" data-body="The Bear is not a cooking show. It's an anxiety attack wrapped in an apron. And somehow, it's one of the most compelling things on television.\n\nAt its core, The Bear is about transformation — not just of a sandwich shop, but of people carrying grief, ambition, and the weight of family legacy. Every shout across the kitchen is a confession in disguise.\n\nThe cinematography is relentless. The pacing is breathless. And yet, in its quietest moments — a shared cigarette, a whispered 'yes, chef' — The Bear finds its soul."><span class="ink-dot review" aria-hidden="true"></span><span class="tag review">Review</span><h3>The Bear — Chaos, Craft, and Kitchen Heat</h3><p class="blog-excerpt">Pressure, grief, ambition, and tenderness all colliding in one kitchen that never fully lets you exhale.</p><div class="star-rating-widget" data-post-id="post-the-bear-review"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div><div class="card-meta"><span class="card-date">Jan 28, 2026</span><button class="read-more" type="button">Read More</button></div></article>
         </div>
       </div>
-      <div>
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#blogs">Blogs</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <div class="social-icons" style="margin-top:0">
-          <a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" class="social-icon"
-            aria-label="LinkedIn"><svg viewBox="0 0 24 24">
-              <path
-                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg></a>
-          <a href="/cdn-cgi/l/email-protection#beccd7c7dfcdc8d7d0d1da8f8c8ffed9d3dfd7d290ddd1d3" class="social-icon" aria-label="Email"><svg viewBox="0 0 24 24">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-            </svg></a>
+    </section>
+    <div class="doodle-divider" aria-hidden="true"><svg viewBox="0 0 1200 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24C118 8 164 42 274 24C386 6 428 42 536 24C654 4 712 42 816 24C926 8 984 42 1096 24C1140 16 1178 16 1200 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M594 12L604 24L594 36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M614 12L604 24L614 36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <section class="section" id="portfolio">
+      <div class="section-panel portfolio-wrap">
+        <div class="section-head"><span class="label reveal">work worth reading</span><h2 class="title reveal">Portfolio <span class="grad">Highlights</span></h2><p class="copy reveal">Selected pieces built around clarity, tone, and the kind of writing that carries intent all the way through.</p></div>
+        <div class="portfolio-grid">
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">professional notes</span><h3>The Art of Professional Blogging</h3><p class="portfolio-copy">Bridging expertise with curiosity so brand voice feels informed and inviting.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">personal page</span><h3>Why I Write When No One's Reading</h3><p class="portfolio-copy">A reflective piece on meaning-first writing and the private work behind a public voice.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">screen notes</span><h3>Severance — Identity Split Review</h3><p class="portfolio-copy">An atmospheric review built on tension, restraint, and psychological detail.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">strategy page</span><h3>Content Strategy Guide</h3><p class="portfolio-copy">Writing that turns audience insight into a clear editorial direction.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">screen notes</span><h3>The Bear — Series Review</h3><p class="portfolio-copy">A visceral review balancing craft analysis with emotion and pace.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
+          <article class="paper-card portfolio-card reveal"><span class="portfolio-label">personal page</span><h3>The Courage to Begin Again</h3><p class="portfolio-copy">A soft but direct reflection on growth, reinvention, and creative humility.</p><a class="portfolio-link" href="#blogs">View Blog</a></article>
         </div>
       </div>
-    </div>
-    <div class="footer-bottom">© 2026 Riri Blogs — Riya S Vinod. All rights reserved. Crafted with words and intention.
-    </div>
-  </footer>
-
-  <!-- ═══ FIREBASE SDK ═══ -->
-  <script type="module">
-    // ─────────────────────────────────────────────────────────────────
-    // FIREBASE SETUP — Replace the values below with YOUR project's config.
-    // Steps to get config:
-    //   1. Go to https://console.firebase.google.com
-    //   2. Create a project (free) → Add a Web App
-    //   3. Copy the firebaseConfig object shown and paste it here
-    //   4. In Firebase console → Build → Realtime Database → Create database
-    //      (Start in "test mode" for now — you can lock it down later)
-    // ─────────────────────────────────────────────────────────────────
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey:            "AIzaSyAleMfumaCAfvdylZaIfHmngBGb-Pycwd8",
-      authDomain:        "riri-blogs.firebaseapp.com",
-      databaseURL:       "https://riri-blogs-default-rtdb.asia-southeast1.firebasedatabase.app/",
-      projectId:         "riri-blogs",
-      storageBucket:     "riri-blogs.firebasestorage.app",
-      messagingSenderId: "670529299510",
-      appId:             "1:670529299510:web:caa6a0bda8f07106016497"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db  = getDatabase(app);
-
-    // ── Per-visitor vote memory (survives page refresh) ──
-    const voted = JSON.parse(localStorage.getItem('riri_votes') || '{}');
-
-    function saveVoted(postId, stars) {
-      voted[postId] = stars;
-      localStorage.setItem('riri_votes', JSON.stringify(voted));
-    }
-
-    function renderStars(widget, avg, count, myVote) {
-      const row  = widget.querySelector('.star-row');
-      const info = widget.querySelector('.rating-info');
-      const stars = row.querySelectorAll('.star-btn');
-      const filled = myVote || Math.round(avg);
-
-      stars.forEach(btn => {
-        const v = parseInt(btn.dataset.value);
-        btn.classList.toggle('lit', v <= filled);
-        btn.classList.toggle('already-voted', !!myVote);
-        btn.disabled = !!myVote;
-        if (!myVote) {
-          btn.onmouseenter = () => stars.forEach(b => b.classList.toggle('hovered', parseInt(b.dataset.value) <= v));
-          btn.onmouseleave = () => stars.forEach(b => b.classList.remove('hovered'));
+    </section>
+    <div class="doodle-divider" aria-hidden="true"><svg viewBox="0 0 1200 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24C110 8 152 40 262 24C370 8 414 40 524 24C632 8 674 40 784 24C892 8 938 40 1048 24C1124 14 1168 16 1200 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M588 14H620V34H588V14Z" stroke="currentColor" stroke-width="2"/><path d="M588 14L604 26L620 14" stroke="currentColor" stroke-width="2"/></svg></div>
+    <section class="section" id="contact">
+      <div class="section-panel">
+        <div class="section-head"><span class="label reveal">write to me</span><h2 class="title reveal">Get in <span class="grad">Touch</span></h2><p class="copy reveal">Bring a brief, a collaboration idea, or a hello. The form is ready for EmailJS once your three IDs are in place.</p></div>
+        <div class="contact-grid">
+          <div class="contact-card reveal"><form class="contact-form" id="contactForm"><label>Your name<input type="text" name="from_name" placeholder="Riya loves knowing who is writing" required /></label><label>Your email<input type="email" name="reply_to" placeholder="you@example.com" required /></label><label>Subject<input type="text" name="subject" placeholder="What are we writing about?" required /></label><label>Your message<textarea name="message" placeholder="Leave a note here..." required></textarea></label><button class="pill primary" type="submit">Send Message</button><p class="contact-feedback" id="contactFeedback" aria-live="polite"></p></form></div>
+          <div class="contact-aside reveal"><p class="contact-quote">"Whether it's a collab, a guest post, or just a hello — I read every message."</p><p class="contact-note">If you'd rather reach out directly, use the links below. Either way, the invitation is open.</p><div class="contact-links"><a href="mailto:riyavinod.work@gmail.com" class="contact-link"><span aria-hidden="true">&#9993;</span><span>riyavinod.work@gmail.com</span></a><a href="https://linkedin.com/in/riya-s-vinod-771924217" target="_blank" rel="noreferrer" class="contact-link"><span aria-hidden="true">in</span><span>LinkedIn</span></a></div><div class="envelope" aria-hidden="true"><svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 14C8 11.7909 9.79086 10 12 10H68C70.2091 10 72 11.7909 72 14V46C72 48.2091 70.2091 50 68 50H12C9.79086 50 8 48.2091 8 46V14Z" stroke="currentColor" stroke-width="2.2"/><path d="M10 16L40 34L70 16" stroke="currentColor" stroke-width="2.2"/><path d="M24 6C28 3 34 2 40 4" stroke="currentColor" stroke-width="2.2"/></svg></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-shell"><div class="footer-grid"><div class="footer-brand"><h3>Riri Blogs</h3><p>Writing that feels warm, deliberate, and impossible to confuse with generic content.</p><p style="margin-top:.75rem;">By Riya S Vinod, with room for strategy, softness, and stories that linger.</p></div><div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#hero">Home</a></li><li><a href="#about">About</a></li><li><a href="#blogs">Blogs</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#contact">Contact</a></li></ul></div><div class="footer-col"><h4>Next Step</h4><p>Ready for a project with voice? Start with a note and we can shape the rest together.</p><a href="#contact" class="pill primary" style="margin-top:1rem;">Start a Conversation</a></div></div><div class="footer-meta"><span>© 2026 Riri Blogs — Riya S Vinod. All rights reserved.</span></div></div></footer>
+  <div class="modal-overlay" id="blogModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><button class="modal-close" id="modalClose" type="button" aria-label="Close blog modal">×</button><span class="tag" id="modalTag"></span><h2 class="modal-title" id="modalTitle"></h2><span class="modal-date" id="modalDate"></span><div class="modal-rating" id="modalRating"></div><div class="modal-body" id="modalBody"></div></div></div>
+  <script>
+    const EMAILJS_SERVICE_ID = "REPLACE_WITH_SERVICE_ID";
+    const EMAILJS_TEMPLATE_ID = "REPLACE_WITH_TEMPLATE_ID";
+    const EMAILJS_PUBLIC_KEY = "REPLACE_WITH_PUBLIC_KEY";
+    const firebaseConfig = {apiKey:"AIzaSyAleMfumaCAfvdylZaIfHmngBGb-Pycwd8",authDomain:"riri-blogs.firebaseapp.com",databaseURL:"https://riri-blogs-default-rtdb.asia-southeast1.firebasedatabase.app/",projectId:"riri-blogs",storageBucket:"riri-blogs.firebasestorage.app",messagingSenderId:"670529299510",appId:"1:670529299510:web:caa6a0bda8f07106016497"};
+    const navbar = document.getElementById("navbar"), progress = document.getElementById("progress"), cursorGlow = document.getElementById("cursorGlow"), notebookCard = document.getElementById("notebookCard"), modal = document.getElementById("blogModal"), modalClose = document.getElementById("modalClose"), modalTag = document.getElementById("modalTag"), modalTitle = document.getElementById("modalTitle"), modalDate = document.getElementById("modalDate"), modalRating = document.getElementById("modalRating"), modalBody = document.getElementById("modalBody"), contactForm = document.getElementById("contactForm"), contactFeedback = document.getElementById("contactFeedback");
+    const revealModes = ["fade-up", "fade-in", "slide-left", "scale-in"];
+    document.querySelectorAll(".reveal").forEach((element, index) => element.classList.add(revealModes[index % revealModes.length]));
+    const revealObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); } }); }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+    function updateScroll(){ const doc = document.documentElement; const total = doc.scrollHeight - doc.clientHeight; progress.style.width = `${total > 0 ? doc.scrollTop / total * 100 : 0}%`; }
+    updateScroll(); window.addEventListener("scroll", updateScroll, { passive: true });
+    document.addEventListener("mousemove", (event) => { cursorGlow.style.left = `${event.clientX}px`; cursorGlow.style.top = `${event.clientY}px`; });
+    if (notebookCard) {
+      const setNotebookPage = (page) => {
+        const nextPage = String(page % 3);
+        notebookCard.dataset.page = nextPage;
+        notebookCard.setAttribute("aria-label", `Interactive notebook. Showing page ${Number(nextPage) + 1} of 3. Click to flip pages.`);
+      };
+      setNotebookPage(Number(notebookCard.dataset.page || 0));
+      notebookCard.addEventListener("click", () => setNotebookPage(Number(notebookCard.dataset.page || 0) + 1));
+      notebookCard.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setNotebookPage(Number(notebookCard.dataset.page || 0) + 1);
         }
       });
-
-      if (count === 0) {
-        info.innerHTML = '<span>Be the first to rate this ✨</span>';
-      } else {
-        const avgText = avg.toFixed(1);
-        const note = myVote ? `<span class="voted-note"> · You rated ${myVote}★</span>` : '';
-        info.innerHTML = `<span class="avg">${avgText}★</span> from ${count} reader${count !== 1 ? 's' : ''}${note}`;
-      }
     }
-
-    function initWidget(widget) {
-      const postId = widget.dataset.postId;
-      const dbRef  = ref(db, `ratings/${postId}`);
-      const myVote = voted[postId] || null;
-
-      // Live-listen to rating changes from Firebase
-      onValue(dbRef, snap => {
-        const data  = snap.val() || { total: 0, count: 0 };
-        const avg   = data.count > 0 ? data.total / data.count : 0;
-        renderStars(widget, avg, data.count, myVote);
-      });
-
-      // Handle click
-      widget.querySelector('.star-row').addEventListener('click', e => {
-        const btn = e.target.closest('.star-btn');
-        if (!btn || voted[postId]) return;
-        const stars = parseInt(btn.dataset.value);
-        saveVoted(postId, stars);
-
-        // Atomic increment in Firebase
-        runTransaction(dbRef, current => {
-          if (!current) return { total: stars, count: 1 };
-          return { total: current.total + stars, count: current.count + 1 };
-        });
-      });
-    }
-
-    // Boot all widgets once DOM is ready
-    document.querySelectorAll('.star-rating-widget').forEach(initWidget);
-  </script>
-
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    /* ═══ CURSOR GLOW ═══ */
-    const glow = document.getElementById('cursorGlow');
-    document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px' });
-
-    /* ═══ DARK MODE ═══ */
-    const themeToggle = document.getElementById('themeToggle');
-    if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.textContent = '☀️' }
-    themeToggle.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-      themeToggle.textContent = isDark ? '🌙' : '☀️';
-      localStorage.setItem('theme', isDark ? 'light' : 'dark');
-    });
-
-
-
-    /* ═══ PROGRESS BAR ═══ */
-    window.addEventListener('scroll', () => { const h = document.documentElement; document.getElementById('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%' });
-
-    /* ═══ SCROLL REVEAL ═══ */
-    const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }) }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    /* ═══ BLOG FILTER ═══ */
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.filter;
-        document.querySelectorAll('.blog-card').forEach((card, i) => {
-          const match = f === 'all' || card.dataset.category === f;
-          card.style.transition = 'opacity .3s ease, transform .3s ease';
-          if (match) {
-            card.style.display = ''; card.style.opacity = '0'; card.style.transform = 'translateY(16px)';
-            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)' }, i * 80);
-          } else { card.style.opacity = '0'; card.style.transform = 'scale(.96)'; setTimeout(() => { card.style.display = 'none' }, 300) }
-        });
+    document.querySelectorAll(".filter-btn").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const ripple = document.createElement("span"); ripple.className = "filter-ripple"; ripple.style.left = `${event.offsetX}px`; ripple.style.top = `${event.offsetY}px`; button.appendChild(ripple); ripple.addEventListener("animationend", () => ripple.remove());
+        document.querySelectorAll(".filter-btn").forEach((item) => item.classList.remove("active")); button.classList.add("active"); const filter = button.dataset.filter;
+        document.querySelectorAll(".blog-card").forEach((card) => { const match = filter === "all" || card.dataset.category === filter; card.style.display = match ? "" : "none"; });
       });
     });
-
-    /* ═══ BLOG MODAL ═══ */
-    function openModal(btn) {
-      const c = btn.closest('.blog-card'), tag = c.querySelector('.blog-tag'), mt = document.getElementById('modalTag');
-      mt.textContent = tag.textContent; mt.className = 'blog-tag ' + tag.classList[1];
-      document.getElementById('modalTitle').textContent = c.dataset.title;
-      document.getElementById('modalDate').textContent = c.querySelector('.date').textContent;
-      document.getElementById('modalBody').innerHTML = c.dataset.body.replace(/\\n/g, '<br/><br/>');
-      document.getElementById('blogModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
+    class PetalSystem {
+      constructor(container){ this.container = container; this.petals = []; this.mouseX = 0; this.mouseY = 0; this.ticking = false; this.height = 0; this.create(); this.resize(); window.addEventListener("resize", () => this.resize()); window.addEventListener("scroll", () => this.request(), { passive: true }); window.addEventListener("mousemove", (event) => { this.mouseX = event.clientX; this.mouseY = event.clientY; this.request(); }); }
+      create(){ const colors = ["var(--lavender)", "var(--blush)", "var(--lilac)"]; for (let i = 0; i < 14; i += 1) { const petal = document.createElement("div"); petal.className = "petal"; petal.innerHTML = '<svg viewBox="0 0 44 56" xmlns="http://www.w3.org/2000/svg"><ellipse cx="22" cy="28" rx="12" ry="20" transform="rotate(35 22 28)" fill="currentColor" opacity="0.24" /></svg>'; petal.style.color = colors[i % colors.length]; petal.dataset.x = String(6 + Math.random() * 88); petal.dataset.y = String(3 + Math.random() * 94); petal.dataset.speed = String(0.03 + Math.random() * 0.09); petal.dataset.dir = String(i % 2 === 0 ? 1 : -1); petal.dataset.rot = String(Math.random() * 24 - 12); this.container.appendChild(petal); this.petals.push(petal); } }
+      resize(){ this.height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight); this.container.style.height = `${this.height}px`; this.request(); }
+      request(){ if (this.ticking) return; this.ticking = true; requestAnimationFrame(() => { this.update(); this.ticking = false; }); }
+      update(){ const scrollTop = window.scrollY, width = window.innerWidth || 1, height = window.innerHeight || 1; this.petals.forEach((petal, index) => { const left = Number(petal.dataset.x) / 100 * width; const top = Number(petal.dataset.y) / 100 * this.height; const speed = Number(petal.dataset.speed); const dir = Number(petal.dataset.dir); const rot = Number(petal.dataset.rot); const xShift = ((this.mouseX / width) - 0.5) * (6 + (index % 4)); const yShift = ((this.mouseY / height) - 0.5) * (4 + (index % 3)); const parallax = scrollTop * speed * dir; petal.style.left = `${left}px`; petal.style.top = `${top}px`; petal.style.transform = `translate3d(${xShift}px, ${parallax + yShift}px, 0) rotate(${rot + parallax * 0.02}deg)`; }); }
     }
-    function closeModal() { document.getElementById('blogModal').classList.remove('active'); document.body.style.overflow = '' }
-    document.getElementById('blogModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal() });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() });
-
-    /* ═══ MAGNETIC BUTTONS ═══ */
-    document.querySelectorAll('.btn-primary, .btn-outline, .nav-sub').forEach(btn => {
-      btn.addEventListener('mousemove', e => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-      });
-    });
+    new PetalSystem(document.getElementById("petalLayer"));
+    let db = null; const voted = JSON.parse(localStorage.getItem("riri_votes") || "{}"); const ratingState = new Map(); const ratingGroups = new Map(); const ratingListeners = new Map();
+    if (window.firebase) { try { firebase.initializeApp(firebaseConfig); db = firebase.database(); } catch (error) { console.error("Firebase init failed:", error); } }
+    function saveVoted(postId, stars){ voted[postId] = stars; localStorage.setItem("riri_votes", JSON.stringify(voted)); }
+    function renderStars(widget, avg, count, myVote){ const row = widget.querySelector(".star-row"), info = widget.querySelector(".rating-info"); if (!row || !info) return; const stars = row.querySelectorAll(".star-btn"), filled = myVote || Math.round(avg); stars.forEach((button) => { const value = Number(button.dataset.value); button.classList.toggle("lit", value <= filled); button.classList.toggle("already-voted", Boolean(myVote)); button.disabled = Boolean(myVote); if (!myVote) { button.onmouseenter = () => stars.forEach((item) => item.classList.toggle("hovered", Number(item.dataset.value) <= value)); button.onmouseleave = () => stars.forEach((item) => item.classList.remove("hovered")); } else { button.onmouseenter = null; button.onmouseleave = null; button.classList.remove("hovered"); } }); info.innerHTML = count === 0 ? "<span>Be the first to rate this &#10024;</span>" : `<span class="avg">${avg.toFixed(1)}&#9733;</span> from ${count} reader${count !== 1 ? "s" : ""}${myVote ? `<span class="voted-note"> · You rated ${myVote}&#9733;</span>` : ""}`; }
+    function renderPost(postId){ const widgets = ratingGroups.get(postId); if (!widgets) return; const data = ratingState.get(postId) || { total: 0, count: 0 }; const avg = data.count > 0 ? data.total / data.count : 0; const myVote = voted[postId] || null; widgets.forEach((widget) => renderStars(widget, avg, data.count, myVote)); }
+    function registerListener(postId){ if (!db || ratingListeners.has(postId)) return; const ref = db.ref(`ratings/${postId}`); const handler = ref.on("value", (snapshot) => { ratingState.set(postId, snapshot.val() || { total: 0, count: 0 }); renderPost(postId); }); ratingListeners.set(postId, { ref, handler }); }
+    function initWidget(widget){ if (!widget) return; const postId = widget.dataset.postId; if (!postId) return; if (!ratingGroups.has(postId)) ratingGroups.set(postId, new Set()); ratingGroups.get(postId).add(widget); if (widget.dataset.bound === "true") { renderPost(postId); return; } widget.dataset.bound = "true"; if (!db) { widget.querySelectorAll(".star-btn").forEach((button) => { button.disabled = true; button.classList.add("already-voted"); }); const info = widget.querySelector(".rating-info"); if (info) info.textContent = "Ratings are unavailable right now."; return; } registerListener(postId); renderPost(postId); const row = widget.querySelector(".star-row"); row.addEventListener("click", (event) => { const button = event.target.closest(".star-btn"); if (!button || voted[postId]) return; const stars = Number(button.dataset.value); saveVoted(postId, stars); renderPost(postId); db.ref(`ratings/${postId}`).transaction((current) => !current ? { total: stars, count: 1 } : { total: (current.total || 0) + stars, count: (current.count || 0) + 1 }); }); }
+    function ratingMarkup(postId){ return `<div class="star-rating-widget" data-post-id="${postId}"><div class="star-row"><button class="star-btn" type="button" data-value="1" aria-label="Rate 1 star">&#9733;</button><button class="star-btn" type="button" data-value="2" aria-label="Rate 2 stars">&#9733;</button><button class="star-btn" type="button" data-value="3" aria-label="Rate 3 stars">&#9733;</button><button class="star-btn" type="button" data-value="4" aria-label="Rate 4 stars">&#9733;</button><button class="star-btn" type="button" data-value="5" aria-label="Rate 5 stars">&#9733;</button></div><div class="rating-info">Loading ratings...</div></div>`; }
+    document.querySelectorAll(".star-rating-widget").forEach((widget) => initWidget(widget));
+    let modalWidget = null;
+    function closeModal(){ modal.classList.remove("active"); document.body.style.overflow = ""; modalRating.innerHTML = ""; if (modalWidget) { const postId = modalWidget.dataset.postId; const group = ratingGroups.get(postId); if (group) { group.delete(modalWidget); if (!group.size) ratingGroups.delete(postId); } } modalWidget = null; }
+    function openModal(card){ const tag = card.querySelector(".tag"); modalTag.className = `tag ${tag.classList.contains("professional") ? "professional" : tag.classList.contains("personal") ? "personal" : "review"}`; modalTag.textContent = tag.textContent; modalTitle.textContent = card.dataset.title; modalDate.textContent = card.querySelector(".card-date").textContent; modalBody.innerHTML = card.dataset.body.replace(/\n\n/g, "<br /><br />"); modalRating.innerHTML = ratingMarkup(card.dataset.postId); modalWidget = modalRating.querySelector(".star-rating-widget"); initWidget(modalWidget); modal.classList.add("active"); document.body.style.overflow = "hidden"; }
+    document.querySelectorAll(".blog-card .read-more").forEach((button) => button.addEventListener("click", () => openModal(button.closest(".blog-card"))));
+    modalClose.addEventListener("click", closeModal); modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); }); document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("active")) closeModal(); });
+    let emailReady = false; if (window.emailjs && !EMAILJS_SERVICE_ID.startsWith("REPLACE_") && !EMAILJS_TEMPLATE_ID.startsWith("REPLACE_") && !EMAILJS_PUBLIC_KEY.startsWith("REPLACE_")) { try { emailjs.init(EMAILJS_PUBLIC_KEY); emailReady = true; } catch (error) { console.error("EmailJS init failed:", error); } }
+    contactForm.addEventListener("submit", async (event) => { event.preventDefault(); contactFeedback.textContent = ""; if (!emailReady) { contactFeedback.textContent = "Add your EmailJS service ID, template ID, and public key to enable sending."; return; } const submit = contactForm.querySelector('button[type="submit"]'); submit.disabled = true; submit.style.opacity = ".7"; try { await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm); contactForm.outerHTML = '<div class="contact-success"><div class="icon" aria-hidden="true">OK</div><p>Your words landed safely. I\'ll write back soon.</p></div>'; } catch (error) { console.error("EmailJS send failed:", error); contactFeedback.textContent = "Something slipped on the way out. Please try again in a moment."; submit.disabled = false; submit.style.opacity = "1"; } });
   </script>
 </body>
 </html>
+
+
+
